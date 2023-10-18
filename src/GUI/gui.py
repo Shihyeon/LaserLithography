@@ -6,10 +6,11 @@ class Window:
         self.root.title("Laser Lithography")
         
         # Frame1: Title Frame
-        self.frame1 = tk.Frame(root)
-        self.frame1.grid(row=0, column=0)
+        self.frame1 = self.addFrame(root, 0, 0)
+        # self.frame1 = tk.Frame(root)
+        # self.frame1.grid(row=0, column=0)
         
-        self.title(self.frame1, 0, 0, text="Laser Lithography Control Window")
+        title1 = self.title(self.frame1, 0, 0, text="Laser Lithography Control Window")
         
         self.empty1_10 = tk.Label(self.frame1, height=2)
         self.empty1_10.grid(row=1)
@@ -63,6 +64,11 @@ class Window:
         self.empty3_20 = tk.Label(self.frame3, height=2)
         self.empty3_20.grid(row=2)
         
+        
+    def addFrame(self, root, row, column, rowspan=1, columnspan=1):
+        self.frame = tk.Frame(root)
+        self.frame.grid(row=row, column=column, rowspan=rowspan, columnspan=columnspan)
+        return self.frame
         
     def title(self, frame, row, column, text, width=30, font=('Nanumgothic', 20)):
         self.frame = frame
