@@ -10,7 +10,7 @@ class Window:
         # self.frame1 = tk.Frame(root)
         # self.frame1.grid(row=0, column=0)
         
-        title1 = self.title(self.frame1, 0, 0, text="Laser Lithography Control Window")
+        self.title1 = self.addTitle(self.frame1, 0, 0, text="Laser Lithography Control Window")
         
         self.empty1_10 = tk.Label(self.frame1, height=2)
         self.empty1_10.grid(row=1)
@@ -70,16 +70,9 @@ class Window:
         self.frame.grid(row=row, column=column, rowspan=rowspan, columnspan=columnspan)
         return self.frame
         
-    def title(self, frame, row, column, text, width=30, font=('Nanumgothic', 20)):
-        self.frame = frame
-        self.text = text
-        self.width = width
-        self.font = font
-        self.row = row
-        self.column = column
-        
-        self.title = tk.Label(frame, text=text, width=width, font=font)
-        self.title.grid(row=row, column=column)
+    def addTitle(self, frame, row, column, text, rowspan=1, columnspan=1, width=30, font=('Nanumgothic', 20)):
+        self.title_label = tk.Label(frame, text=text, width=width, font=font)
+        self.title_label.grid(row=row, column=column, rowspan=rowspan, columnspan=columnspan)
         
         
 
