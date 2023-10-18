@@ -10,8 +10,7 @@ class Window:
         
         self.title1 = self.addTitle(self.frame1, 0, 0, text="Laser Lithography Control Window")
         
-        self.empty1_10 = tk.Label(self.frame1, height=2)
-        self.empty1_10.grid(row=1)
+        self.empty1_10 = self.addEmptyBox(self.frame1, 1, 0, height=2)
         
         # Frame2: Moving Commands Frame
         self.frame2 = self.addFrame(root, 1, 0)
@@ -72,6 +71,10 @@ class Window:
     def addSubTitle(self, frame, row, column, text, rowspan=1, columnspan=1, font=('Nanumgothic', 12)):
         self.subtitle_label = tk.Label(frame, text=text, font=font)
         self.subtitle_label.grid(row=row, column=column, rowspan=rowspan, columnspan=columnspan)
+        
+    def addEmptyBox(self, frame, row, column, width=1, height=1):
+        self.emptybox = tk.Label(frame, width=width, height=height)
+        self.emptybox.grid(row=row, column=column)
         
         
 
