@@ -1,4 +1,4 @@
-from motor import Motor
+from Controller.motor import Motor
 import tkinter as tk
 
 class MotorControlWindow:

@@ -7,7 +7,7 @@ class Window:
         
         # Frame1: Title Frame
         self.frame1 = tk.Frame(root)
-        self.frame1.grid(row=0, column=0)        
+        self.frame1.grid(row=0, column=0)
         
         self.title = tk.Label(self.frame1, text="Laser Lithography Control Window", width=30, font=('Nanumgothic', 20))
         self.title.grid(row=0)
