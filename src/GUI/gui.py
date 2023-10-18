@@ -11,9 +11,6 @@ class Window:
         
         self.title(self.frame1, 0, 0, text="Laser Lithography Control Window")
         
-        # self.title = tk.Label(self.frame1, text="Laser Lithography Control Window", width=30, font=('Nanumgothic', 20))
-        # self.title.grid(row=0)
-        
         self.empty1_10 = tk.Label(self.frame1, height=2)
         self.empty1_10.grid(row=1)
         
@@ -76,7 +73,7 @@ class Window:
         self.column = column
         
         self.title = tk.Label(frame, text=text, width=width, font=font)
-        self.title.grid(row=row, column=col)
+        self.title.grid(row=row, column=column)
         
         
 
