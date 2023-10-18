@@ -16,8 +16,7 @@ class Window:
         # Frame2: Moving Commands Frame
         self.frame2 = self.addFrame(root, 1, 0)
         
-        self.text2_00 = tk.Label(self.frame2, text="Move to Position.", font=('Nanumgothic', 12))
-        self.text2_00.grid(row=0, columnspan=3)
+        self.subtitle2_00 = self.addSubTitle(self.frame2, 0, 0, text="Move to Position.", columnspan=3)
         
         # X coordinate input field and label
         self.x_label = tk.Label(self.frame2, text="X:", width=2, font=('Nanumgothic', 11))
@@ -48,7 +47,7 @@ class Window:
         
         
         # Frame3: Exit Frame
-        self.frame3 = self.addFrame(root, 0, 0)
+        self.frame3 = self.addFrame(root, 3, 0)
         
         self.empty3_00 = tk.Label(self.frame3, height=2)
         self.empty3_00.grid(row=0)
@@ -69,6 +68,10 @@ class Window:
     def addTitle(self, frame, row, column, text, rowspan=1, columnspan=1, width=30, font=('Nanumgothic', 20)):
         self.title_label = tk.Label(frame, text=text, width=width, font=font)
         self.title_label.grid(row=row, column=column, rowspan=rowspan, columnspan=columnspan)
+        
+    def addSubTitle(self, frame, row, column, text, rowspan=1, columnspan=1, font=('Nanumgothic', 12)):
+        self.subtitle_label = tk.Label(frame, text=text, font=font)
+        self.subtitle_label.grid(row=row, column=column, rowspan=rowspan, columnspan=columnspan)
         
         
 
