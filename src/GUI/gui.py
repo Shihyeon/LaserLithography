@@ -9,8 +9,10 @@ class Window:
         self.frame1 = tk.Frame(root)
         self.frame1.grid(row=0, column=0)
         
-        self.title = tk.Label(self.frame1, text="Laser Lithography Control Window", width=30, font=('Nanumgothic', 20))
-        self.title.grid(row=0)
+        self.title(self.frame1, 0, 0, text="Laser Lithography Control Window")
+        
+        # self.title = tk.Label(self.frame1, text="Laser Lithography Control Window", width=30, font=('Nanumgothic', 20))
+        # self.title.grid(row=0)
         
         self.empty1_10 = tk.Label(self.frame1, height=2)
         self.empty1_10.grid(row=1)
@@ -65,9 +67,20 @@ class Window:
         self.empty3_20.grid(row=2)
         
         
+    def title(self, frame, row, column, text, width=30, font=('Nanumgothic', 20)):
+        self.frame = frame
+        self.text = text
+        self.width = width
+        self.font = font
+        self.row = row
+        self.column = column
         
+        self.title = tk.Label(frame, text=text, width=width, font=font)
+        self.title.grid(row=row, column=col)
+        
+        
+
 if __name__ == "__main__":
     root = tk.Tk()
     app = Window(root)
-    # root.geometry("600x500")
     root.mainloop()
