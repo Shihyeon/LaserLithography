@@ -7,8 +7,6 @@ class Window:
         
         # Frame1: Title Frame
         self.frame1 = self.addFrame(root, 0, 0)
-        # self.frame1 = tk.Frame(root)
-        # self.frame1.grid(row=0, column=0)
         
         self.title1 = self.addTitle(self.frame1, 0, 0, text="Laser Lithography Control Window")
         
@@ -16,8 +14,7 @@ class Window:
         self.empty1_10.grid(row=1)
         
         # Frame2: Moving Commands Frame
-        self.frame2 = tk.Frame(root)
-        self.frame2.grid(row=1, column=0)  
+        self.frame2 = self.addFrame(root, 1, 0)
         
         self.text2_00 = tk.Label(self.frame2, text="Move to Position.", font=('Nanumgothic', 12))
         self.text2_00.grid(row=0, columnspan=3)
@@ -51,8 +48,7 @@ class Window:
         
         
         # Frame3: Exit Frame
-        self.frame3 = tk.Frame(root)
-        self.frame3.grid(row=2, column=0) 
+        self.frame3 = self.addFrame(root, 0, 0)
         
         self.empty3_00 = tk.Label(self.frame3, height=2)
         self.empty3_00.grid(row=0)
