@@ -6,16 +6,16 @@ class Window:
         self.root.title("Laser Lithography")
         
         # Frame1: Title Frame
-        self.frame1 = self.addFrame(root, 0, 0)
+        self.frame1 = self.setFrame(root, 0, 0)
         
-        self.title1 = self.addTitle(self.frame1, 0, 0, text="Laser Lithography Control Window")
+        self.title1 = self.setTitle(self.frame1, 0, 0, text="Laser Lithography Control Window")
         
-        self.empty1_10 = self.addEmptyBox(self.frame1, 1, 0, height=2)
+        self.empty1_10 = self.setEmptyBox(self.frame1, 1, 0, height=2)
         
         # Frame2: Moving Commands Frame
-        self.frame2 = self.addFrame(root, 1, 0)
+        self.frame2 = self.setFrame(root, 1, 0)
         
-        self.subtitle2_00 = self.addSubTitle(self.frame2, 0, 0, text="Move to Position.", columnspan=3)
+        self.subtitle2_00 = self.setSubTitle(self.frame2, 0, 0, text="Move to Position.", columnspan=3)
         
         # X coordinate input field and label
         self.x_label = tk.Label(self.frame2, text="X:", width=2, font=('Nanumgothic', 11))
@@ -46,7 +46,7 @@ class Window:
         
         
         # Frame3: Exit Frame
-        self.frame3 = self.addFrame(root, 3, 0)
+        self.frame3 = self.setFrame(root, 3, 0)
         
         self.empty3_00 = tk.Label(self.frame3, height=2)
         self.empty3_00.grid(row=0)
@@ -59,20 +59,20 @@ class Window:
         self.empty3_20.grid(row=2)
         
         
-    def addFrame(self, root, row, column, rowspan=1, columnspan=1):
+    def setFrame(self, root, row, column, rowspan=1, columnspan=1):
         self.frame = tk.Frame(root)
         self.frame.grid(row=row, column=column, rowspan=rowspan, columnspan=columnspan)
         return self.frame
         
-    def addTitle(self, frame, row, column, text, rowspan=1, columnspan=1, width=30, font=('Nanumgothic', 20)):
+    def setTitle(self, frame, row, column, text, rowspan=1, columnspan=1, width=30, font=('Nanumgothic', 20)):
         self.title_label = tk.Label(frame, text=text, width=width, font=font)
         self.title_label.grid(row=row, column=column, rowspan=rowspan, columnspan=columnspan)
         
-    def addSubTitle(self, frame, row, column, text, rowspan=1, columnspan=1, font=('Nanumgothic', 12)):
+    def setSubTitle(self, frame, row, column, text, rowspan=1, columnspan=1, font=('Nanumgothic', 12)):
         self.subtitle_label = tk.Label(frame, text=text, font=font)
         self.subtitle_label.grid(row=row, column=column, rowspan=rowspan, columnspan=columnspan)
         
-    def addEmptyBox(self, frame, row, column, width=1, height=1):
+    def setEmptyBox(self, frame, row, column, width=1, height=1):
         self.emptybox = tk.Label(frame, width=width, height=height)
         self.emptybox.grid(row=row, column=column)
         
