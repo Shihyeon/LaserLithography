@@ -18,19 +18,13 @@ class Window:
         self.subtitle2_00 = self.setSubTitle(self.frame2, 0, 0, text="Move to Position.", columnspan=3)
         
         # X coordinate input field and label
-        self.x_label = tk.Label(self.frame2, text="X:", width=2, font=('Nanumgothic', 11))
-        self.x_label.grid(row=1, column=0)
-        self.x_entry = tk.Entry(self.frame2, width=10, font=('Nanumgothic', 11))
-        self.x_entry.grid(row=1, column=1)
+        self.x_label = self.setAxisInputLabel(self.frame2, 1, 0, text="X:")
         
         self.empty2_02 = tk.Label(self.frame2, width=2)
         self.empty2_02.grid(row=1, column=2)
         
         # Y coordinate input field and label
-        self.y_label = tk.Label(self.frame2, text="Y:", width=2, font=('Nanumgothic', 11))
-        self.y_label.grid(row=1, column=3)
-        self.y_entry = tk.Entry(self.frame2, width=10, font=('Nanumgothic', 11))
-        self.y_entry.grid(row=1, column=4)
+        self.y_label = self.setAxisInputLabel(self.frame2, 1, 3, text="Y:")
         
         self.empty2_10 = tk.Label(self.frame2, height=1)
         self.empty2_10.grid(row=2, column=0)
@@ -75,6 +69,12 @@ class Window:
     def setEmptyBox(self, frame, row, column, width=1, height=1):
         self.emptybox = tk.Label(frame, width=width, height=height)
         self.emptybox.grid(row=row, column=column)
+        
+    def setAxisInputLabel(self, frame, row, column, text, font=('Nanumgothic', 11)):
+        self.x_label = tk.Label(frame, text=text, width=2, font=font)
+        self.x_label.grid(row=row, column=column)
+        self.x_entry = tk.Entry(self.frame2, width=10, font=('Nanumgothic', 11))
+        self.x_entry.grid(row=row, column=column+1)
         
         
 
