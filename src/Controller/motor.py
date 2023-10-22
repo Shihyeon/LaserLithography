@@ -17,9 +17,16 @@ class Motor:
         if ccw_soft_limit_status == '1':
             raise Exception("CCW Soft Limit is enabled.")
         
-        self.setSpeed(400, 400)
-        self.setRate(20, 20)
-        self.goAbs(0, 0)
+        x_speed = 400
+        y_speed = 400
+        x_rate = 20
+        y_rate = 20
+        init_x_pos = 0
+        init_y_pos = 0
+        
+        self.setSpeed(x_speed, y_speed)
+        self.setRate(x_rate, y_rate)
+        self.goAbs(init_x_pos, init_y_pos)
         
         if checkRange:
             self.goAbs(2000, 2000)
