@@ -7,6 +7,6 @@ setup(
     url='https://gitlab.com/cnu-physics-capstone-design/laser-lithography',
     author='Seungyeop Lee',
     author_email='lsy020206@outlook.kr',
-    license='',
+    license='GNU GPL V3',
     install_requires=['numpy', 'pyserial', 'tkinter'],
 )
