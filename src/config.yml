@@ -1,0 +1,21 @@
+
+
+Setup:
+  Port: COM3
+  Baudrate: 9600
+
+X_Axis:
+  L_Speed: 400
+  F_Speed: 400
+  Rate: 20
+  S_Rate: 20
+
+Y_Axis:
+  L_Speed: 400
+  F_Speed: 400
+  Rate: 20
+  S_Rate: 20
+
+Initial_Position: 
+  X: 0
+  Y: 0
