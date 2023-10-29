@@ -6,7 +6,7 @@ class Motor:
     def __init__ (self, port='COM3', baudrate=9600, checkRange=True):
         
         # Open config
-        with open(file="scr/config.yml", mode="r") as config_file:
+        with open(file="src\\config.yml", mode="r") as config_file:
             config = yaml.safe_load(config_file)
         
         # Set port and baudrate value with config
