@@ -13,7 +13,10 @@ class Recipe():
     def goRecipe(self):
         csv_size = len(self.csv_reader.X)
         for i in range(csv_size):
-            self.motor.goAbs(self.csv_reader.X[i], self.csv_reader.Y[i])
+            target_x = self.motor.init_x_pos + self.csv_reader.X[i]
+            target_y = self.motor.init_y_pos + self.csv_reader.Y[i]
+            self.motor.goAbs(target_x, target_y)
+
 
 
 if __name__ == "__main__":
