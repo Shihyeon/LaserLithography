@@ -10,8 +10,8 @@ class Motor:
             config = yaml.safe_load(config_file)
         
         # Set port and baudrate value with config
-        port = config['Setup']['Port']
-        baudrate = config['Setup']['Baudrate']
+        port = config['setup']['port']
+        baudrate = config['setup']['baudrate']
             
         try:
             self.ser = serial.Serial(port=port, baudrate=baudrate, stopbits=1)
@@ -34,14 +34,14 @@ class Motor:
         y_f_speed = config['Y_Axis']['F_Speed']
         
         # Set rate value with config
-        x_rate = config['X_Axis']['Rate']
-        x_s_rate = config['X_Axis']['S_Rate']
-        y_rate = config['Y_Axis']['Rate']
-        y_s_rate = config['Y_Axis']['S_Rate']
+        x_rate = config['x_axis']['rate']
+        x_s_rate = config['x_axis']['s_rate']
+        y_rate = config['y_axis']['rate']
+        y_s_rate = config['y_axis']['s_rate']
         
         # Set initial position value with config
-        init_x_pos = config['Initial_Position']['X']
-        init_y_pos = config['Initial_Position']['Y']
+        init_x_pos = config['initial_position']['x']
+        init_y_pos = config['initial_position']['y']
         
         # axis setting
         x = "1"
