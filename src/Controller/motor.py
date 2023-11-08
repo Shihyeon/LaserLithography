@@ -40,8 +40,8 @@ class Motor:
         y_s_rate = config['y_axis']['s_rate']
         
         # Set initial position value with config
-        init_x_pos = config['initial_position']['x']
-        init_y_pos = config['initial_position']['y']
+        self.init_x_pos = config['initial_position']['x']
+        self.init_y_pos = config['initial_position']['y']
         
         # axis setting
         x = "1"
@@ -51,7 +51,7 @@ class Motor:
         self.setSpeed(y, y_l_speed, y_f_speed)
         self.setRate(x, x_rate, x_s_rate)
         self.setRate(y, y_rate, y_s_rate)
-        self.goAbs(init_x_pos, init_y_pos)
+        self.goAbs(self.init_x_pos, self.init_y_pos)
         
         if checkRange:
             self.goAbs(0, 0)
