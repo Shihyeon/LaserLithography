@@ -20,11 +20,12 @@ class Recipe():
 
 
 if __name__ == "__main__":
-    recip = Recipe()
+    recipe = Recipe()
+    recipe.goRecipe()
 
     # X 및 Y 리스트 출력
-    print("X:", recip.csv_reader.X)
-    print("Y:", recip.csv_reader.Y)
+    # print("X:", recipe.csv_reader.X)
+    # print("Y:", recipe.csv_reader.Y)
     # csv_size = len(recip.csv_reader.X)
     # for i in range(csv_size):
     #     print(recip.csv_reader.X[i], recip.csv_reader.Y[i])
