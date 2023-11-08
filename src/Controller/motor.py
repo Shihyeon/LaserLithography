@@ -28,10 +28,10 @@ class Motor:
             raise Exception("CCW Soft Limit is enabled.")
                         
         # Set speed value with config
-        x_l_speed = config['X_Axis']['L_Speed']
-        x_f_speed = config['X_Axis']['F_Speed']
-        y_l_speed = config['Y_Axis']['L_Speed']
-        y_f_speed = config['Y_Axis']['F_Speed']
+        x_l_speed = config['x_axis']['l_speed']
+        x_f_speed = config['x_axis']['f_speed']
+        y_l_speed = config['y_axis']['l_speed']
+        y_f_speed = config['y_axis']['f_speed']
         
         # Set rate value with config
         x_rate = config['x_axis']['rate']
