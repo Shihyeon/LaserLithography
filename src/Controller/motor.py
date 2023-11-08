@@ -57,7 +57,7 @@ class Motor:
             self.goAbs(0, 0)
             self.goAbs(2000, 2000)
             self.goAbs(-2000, -2000)
-            self.goAbs(init_x_pos, init_y_pos)
+            self.goAbs(self.init_x_pos, self.init_y_pos)
 
     def writeCommand(self, command: str):
         command += '\r'
