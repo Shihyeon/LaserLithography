@@ -1,21 +1,23 @@
 
+motor:
+  setup:
+    port: COM3
+    baudrate: 9600
+  x_axis:
+    l_speed: 400
+    f_speed: 400
+    rate: 20
+    s_rate: 20
+  y_axis:
+    l_speed: 400
+    f_speed: 400
+    rate: 20
+    s_rate: 20
+  initial_position: 
+    x: 0
+    y: 0
 
-setup:
-  port: COM3
-  baudrate: 9600
-
-x_axis:
-  l_speed: 400
-  f_speed: 400
-  rate: 20
-  s_rate: 20
-
-y_axis:
-  l_speed: 400
-  f_speed: 400
-  rate: 20
-  s_rate: 20
-
-initial_position: 
-  x: 0
-  y: 0
+laser:
+  setup:
+    port: COM3
+    baudrate: 9600
