@@ -2,3 +2,4 @@ tkinter
 pysyrial
 csv
 yaml
+loguru

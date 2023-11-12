@@ -8,5 +8,5 @@ setup(
     author='Seungyeop Lee',
     author_email='lsy020206@outlook.kr',
     license='GNU GPL V3',
-    install_requires=['numpy', 'pyserial', 'tkinter'],
+    install_requires=['numpy', 'pyserial', 'tkinter', 'loguru'],
 )
