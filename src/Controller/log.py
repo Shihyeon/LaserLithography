@@ -16,7 +16,7 @@ class Logger:
     
     def configure_logger(self):
         logger.remove()  # 기존 핸들러 제거
-        logger.add(self.log_file, level="DEBUG", format="<green>{time:YYYY-MM-DD HH:mm:ss.SS}</green> | <level>{level: <8}</level> | <level>{message}</level>", rotation="1 week", retention="2 weeks")
+        logger.add(self.log_file, level="TRACE", format="<green>{time:YYYY-MM-DD HH:mm:ss.SS}</green> | <level>{level: <8}</level> | <level>{message}</level>", rotation="1 week", retention="2 weeks")
     
     def get_logger(self):
         return logger
