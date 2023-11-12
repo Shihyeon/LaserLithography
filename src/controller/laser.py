@@ -6,17 +6,17 @@ class Laser:
         self.arduino = serial.Serial(port, baud_rate)
         time.sleep(1)
 
-    def turn_on(self):
+    def onLaser(self):
         var = '1'.encode('utf-8')
         self.arduino.write(var)
         print("Laser turned ON")
 
-    def turn_off(self):
+    def offLaser(self):
         var = '0'.encode('utf-8')
         self.arduino.write(var)
         print("Laser turned OFF")
 
-    def control_laser(self):
+    def controlLaser(self):
         print("'1'을 입력하면 Laser ON & '0'을 입력하면 Laser OFF")
         while True:
             var = input()
@@ -30,4 +30,4 @@ class Laser:
 
 if __name__ == "__main__":
     laser_controller = Laser()
-    laser_controller.control_laser()
+    laser_controller.controlLaser()
