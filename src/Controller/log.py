@@ -3,7 +3,7 @@ from datetime import datetime
 import os
 
 class Logger:
-    def __init__(self, log_dir):
+    def __init__(self, log_dir="src\\log"):
         self.log_dir = log_dir
         self.log_file = self.generate_log_file()
         self.configure_logger()
