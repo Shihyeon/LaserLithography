@@ -1,4 +1,4 @@
-from datareader import CSVDataReader
+from reader import CSVDataReader
 from motor import Motor
 
 class Recipe():
