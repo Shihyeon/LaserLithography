@@ -10,13 +10,11 @@ class Laser:
         var = '1'.encode('utf-8')
         self.arduino.write(var)
         print("Laser turned ON")
-        time.sleep(1)
 
     def turn_off(self):
         var = '0'.encode('utf-8')
         self.arduino.write(var)
         print("Laser turned OFF")
-        time.sleep(1)
 
     def control_laser(self):
         print("'1'을 입력하면 Laser ON & '0'을 입력하면 Laser OFF")
