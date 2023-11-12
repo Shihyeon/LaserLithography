@@ -11,12 +11,12 @@ class Logger:
     def generate_log_file(self):
         now = datetime.now()
         formatted_datetime = now.strftime("%Y-%m-%d_%H-%M-%S")
-        log_file = os.path.join(self.log_dir, f"server_{formatted_datetime}.log")
+        log_file = os.path.join(self.log_dir, f"Report_{formatted_datetime}.log")
         return log_file
     
     def configure_logger(self):
         logger.remove()  # 기존 핸들러 제거
-        logger.add(self.log_file, level="DEBUG", format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | <level>{message}</level>", rotation="1 week", retention="2 weeks")
+        logger.add(self.log_file, level="DEBUG", format="<green>{time:YYYY-MM-DD HH:mm:ss.SS}</green> | <level>{level: <8}</level> | <level>{message}</level>", rotation="1 week", retention="2 weeks")
     
     def get_logger(self):
         return logger
