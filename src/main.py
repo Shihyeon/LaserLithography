@@ -1,4 +1,4 @@
-from Controller.motor import Motor
+from controller.motor import Motor
 from GUI.gui import Window
 import tkinter as tk
 
