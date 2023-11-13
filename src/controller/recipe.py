@@ -12,9 +12,7 @@ class Recipe():
         self.logInstance = Logger()
         self.logger = self.logInstance.getLogger()
         
-        # CSVDataReader 클래스의 인스턴스 생성
         self.csv_reader = CSVDataReader(path="src\\resources\\filtered_pixel_rgb_values.csv")
-        # CSV 파일 읽기 메서드 호출
         self.csv_reader.read_csv()
         
     def goRecipe(self):
