@@ -5,7 +5,7 @@ class Laser():
     def __init__(self, port='COM3', baud_rate=9600):
         self.arduino = serial.Serial(port, baud_rate)
         time.sleep(1)
-        self.var = '0'
+        self.var = '0'  # 초기 상태를 '0'으로 설정
 
     def onLaser(self):
         self.var = '1'.encode('utf-8')
@@ -17,17 +17,11 @@ class Laser():
         self.arduino.write(self.var)
         print("Laser turned OFF")
 
-    def controlLaser(self):
-        print("'1'을 입력하면 Laser ON & '0'을 입력하면 Laser OFF")
-        if self.var == '1':
-            self.onLaser()
-        elif self.var == '0':
-            self.offLaser()
-        else:
-            print("유효한 입력이 아닙니다. '1' 또는 '0'을 입력하세요.")
-
 if __name__ == "__main__":
     laser_controller = Laser()
-    laser_controller.onLaser()
-    time.sleep(10)
-    laser_controller.offLaser()
+    print("'1'을 입력하면 Laser ON & '0'을 입력하면 Laser OFF")
+
+    # 원하는 명령을 호출하여 Laser를 제어
+    laser_controller.onLaser()  # Laser를 켜는 명령
+    time.sleep(10)  # 일정 시간 대기
+    laser_controller.offLaser()  # Laser를 끄는 명령
