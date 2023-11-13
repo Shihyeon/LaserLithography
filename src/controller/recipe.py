@@ -10,7 +10,7 @@ class Recipe():
         self.laser = Laser()
         self.laser.controlLaser()
         self.logInstance = Logger()
-        self.logger = self.logInstance.get_logger()
+        self.logger = self.logInstance.getLogger()
         
         # CSVDataReader 클래스의 인스턴스 생성
         self.csv_reader = CSVDataReader(path="src\\resources\\filtered_pixel_rgb_values.csv")
