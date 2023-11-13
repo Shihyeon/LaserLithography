@@ -1,5 +1,4 @@
 import serial
-import yaml
 import time
 from config import Config
 
