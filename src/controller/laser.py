@@ -8,12 +8,12 @@ class Laser:
 
     def onLaser(self):
         self.var = '1'.encode('utf-8')
-        self.arduino.write(var)
+        self.arduino.write(self.var)
         print("Laser turned ON")
 
     def offLaser(self):
         self.var = '0'.encode('utf-8')
-        self.arduino.write(var)
+        self.arduino.write(self.var)
         print("Laser turned OFF")
 
     def controlLaser(self):
@@ -29,3 +29,6 @@ class Laser:
 if __name__ == "__main__":
     laser_controller = Laser()
     laser_controller.controlLaser()
+    laser_controller.onLaser()
+    time.sleep(5)
+    laser_controller.offLaser()
