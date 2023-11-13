@@ -1,9 +1,21 @@
 import serial
+import yaml
 import time
 
 class ArduinoLEDControl:
-    def __init__(self, port, baud_rate=9600):
-        self.arduino = serial.Serial(port, baud_rate)
+    def __init__(self, port='COM3', baudrate=9600):
+        
+        with open(file="src\\config.yml", mode="r") as config_file:
+            config = yaml.safe_load(config_file)
+
+        port = config['laser']['setup']['port']
+        baudrate = config['laser']['setup']['baudrate']
+
+        try:
+            self.arduino = serial.Serial(port=port, baudrate=baudrate)
+        except Exception as e:
+            raise Exception(f"Usb not connected or port doesn't have permission for serial. try 'sudo chmod 666 {port}'")
+        
         time.sleep(2)
 
     def on(self):
