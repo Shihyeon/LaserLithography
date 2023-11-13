@@ -21,3 +21,4 @@ laser:
   setup:
     port: COM3
     baudrate: 9600
+    delay_duration: 0.5
