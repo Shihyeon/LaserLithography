@@ -18,13 +18,13 @@ class ArduinoLaserControl:
         
         time.sleep(2)
 
-    def on(self):
+    def onLaser(self):
         self.arduino.write(b'1')
-        print("LED ON")
+        print("Laser ON")
 
-    def off(self):
+    def offLaser(self):
         self.arduino.write(b'0')
-        print("LED OFF")
+        print("Laser OFF")
 
     def close(self):
         self.arduino.close()
@@ -35,8 +35,8 @@ if __name__ == "__main__":
     led_controller = ArduinoLaserControl(arduino_port)
 
     # LED를 켜고 끄는 예시
-    led_controller.on()
+    led_controller.onLaser()
     time.sleep(2)  # LED를 켜두고 2초 대기
-    led_controller.off()
+    led_controller.offLaser()
 
     led_controller.close()
