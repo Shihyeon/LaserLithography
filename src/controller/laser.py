@@ -17,7 +17,7 @@ class ArduinoLEDControl:
     def close(self):
         self.arduino.close()
 
-if __name__ == "__main":
+if __name__ == "__main__":
     arduino_port = 'COM3'  # 아두이노가 연결된 포트에 따라 변경해야 합니다.
 
     led_controller = ArduinoLEDControl(arduino_port)
