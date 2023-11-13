@@ -1,13 +1,13 @@
 import serial
 import yaml
 import time
+from config import Config
 
 class ArduinoLaserControl:
     def __init__(self, port='COM3', baudrate=9600):
         
-        with open(file="src\\config.yml", mode="r") as config_file:
-            config = yaml.safe_load(config_file)
-
+        config = Config()
+        
         port = config['laser']['setup']['port']
         baudrate = config['laser']['setup']['baudrate']
 
