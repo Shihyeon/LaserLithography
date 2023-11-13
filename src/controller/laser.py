@@ -1,26 +1,26 @@
 import serial
 import time
 
-class Laser():
+class LaserController:
     def __init__(self, port='COM7', baud_rate=9600):
         self.arduino = serial.Serial(port, baud_rate)
         time.sleep(1)
-        self.var = '0'  # 초기 상태를 '0'으로 설정
+        self.laser_on = False  # 초기 상태를 레이저 끈 상태로 설정
 
-    def onLaser(self):
-        self.var = '1'.encode('utf-8')
-        self.arduino.write(self.var)
-        print("Laser turned ON")
-
-    def offLaser(self):
-        self.var = '0'.encode('utf-8')
-        self.arduino.write(self.var)
-        print("Laser turned OFF")
+    def toggle_laser(self):
+        if self.laser_on:
+            self.arduino.write('0'.encode('utf-8'))  # 레이저 끄기
+            self.laser_on = False
+            print("Laser turned OFF")
+        else:
+            self.arduino.write('1'.encode('utf-8'))  # 레이저 켜기
+            self.laser_on = True
+            print("Laser turned ON")
 
 if __name__ == "__main__":
-    laser_controller = Laser()
+    laser_controller = LaserController()
 
     # 원하는 명령을 호출하여 Laser를 제어
-    laser_controller.onLaser()  # Laser를 켜는 명령
+    laser_controller.toggle_laser()  # Laser를 토글하는 명령
     time.sleep(10)  # 일정 시간 대기
-    laser_controller.offLaser()  # Laser를 끄는 명령
+    laser_controller.toggle_laser()  # Laser를 다시 토글하는 명령
