@@ -1,27 +1,30 @@
 import serial
 import time
 
-class LaserController:
-    def __init__(self, port='COM7', baud_rate=9600):
+class ArduinoLEDControl:
+    def __init__(self, port, baud_rate=9600):
         self.arduino = serial.Serial(port, baud_rate)
-        time.sleep(1)
-        self.laserOn = False  # 초기 상태를 레이저 끈 상태로 설정
+        time.sleep(2)
 
-    def onLaser(self):
-        self.arduino.write('1'.encode('utf-8'))  # 레이저 실행 명령
-        self.laserOn = True
-        print("Laser started")
+    def on(self):
+        self.arduino.write(b'1')
+        print("LED ON")
 
-    def offLaser(self):
-        self.arduino.write('0'.encode('utf-8'))  # 레이저 정지 명령
-        self.laserOn = False
-        print("Laser stopped")
+    def off(self):
+        self.arduino.write(b'0')
+        print("LED OFF")
 
-if __name__ == "__main__":
-    laserController = LaserController()
+    def close(self):
+        self.arduino.close()
 
-    # 레이저 실행 명령
-    laserController.onLaser()
-    time.sleep(10)  # 일정 시간 대기
-    # 레이저 정지 명령
-    laserController.offLaser()
+if __name__ == "__main":
+    arduino_port = 'COM3'  # 아두이노가 연결된 포트에 따라 변경해야 합니다.
+
+    led_controller = ArduinoLEDControl(arduino_port)
+
+    # LED를 켜고 끄는 예시
+    led_controller.on()
+    time.sleep(2)  # LED를 켜두고 2초 대기
+    led_controller.off()
+
+    led_controller.close()
