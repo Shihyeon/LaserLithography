@@ -1,9 +1,16 @@
 from reader import CSVDataReader
 from motor import Motor
+from laser import Laser
+from log import Logger
+import time
 
 class Recipe():
     def __init__(self):
         self.motor = Motor()
+        self.laser = Laser()
+        self.laser.controlLaser()
+        self.logInstance = Logger()
+        self.logger = self.logInstance.get_logger()
         
         # CSVDataReader 클래스의 인스턴스 생성
         self.csv_reader = CSVDataReader(path="src\\resources\\filtered_pixel_rgb_values.csv")
@@ -16,6 +23,9 @@ class Recipe():
             target_x = self.motor.init_x_pos + self.csv_reader.X[i]
             target_y = self.motor.init_y_pos + self.csv_reader.Y[i]
             self.motor.goAbs(target_x, target_y)
+            self.laser.onLaser()
+            time.sleep(0.5)
+            self.laser.offLaser()
 
 
 
