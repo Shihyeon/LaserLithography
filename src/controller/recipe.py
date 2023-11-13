@@ -2,6 +2,7 @@ from reader import CSVDataReader
 from motor import Motor
 from laser import Laser
 from log import Logger
+from config import Config
 import time
 
 class Recipe():
@@ -10,6 +11,8 @@ class Recipe():
         self.laser = Laser()
         self.logInstance = Logger()
         self.logger = self.logInstance.getLogger()
+        config = Config()
+        self.delayDuration = config['laser']['setting']['delay_duration']
         
         self.csv_reader = CSVDataReader(path="src\\resources\\filtered_pixel_rgb_values.csv")
         self.csv_reader.read_csv()
@@ -21,7 +24,7 @@ class Recipe():
             target_y = self.motor.init_y_pos + self.csv_reader.Y[i]
             self.motor.goAbs(target_x, target_y)
             self.laser.onLaser()
-            time.sleep(0.5)
+            time.sleep(float(f"{self.delayDuration}"))
             self.laser.offLaser()
             self.logger.trace(f"Lithography absolute position ({target_x}, {target_y})")
             if i == csv_size:
