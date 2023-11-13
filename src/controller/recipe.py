@@ -25,6 +25,8 @@ class Recipe():
             time.sleep(0.5)
             self.laser.offLaser()
             self.logger.trace(f"Lithography absolute position ({target_x}, {target_y})")
+            if i == csv_size:
+                self.logger.success("Success Lithography")
 
 
 
