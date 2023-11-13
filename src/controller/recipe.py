@@ -24,7 +24,7 @@ class Recipe():
             target_y = self.motor.init_y_pos + self.csv_reader.Y[i]
             self.motor.goAbs(target_x, target_y)
             self.laser.onLaser()
-            time.sleep(float(f"{self.delayDuration}"))
+            time.sleep(self.delayDuration)
             self.laser.offLaser()
             self.logger.trace(f"Lithography absolute position ({target_x}, {target_y})")
             if i == csv_size:
