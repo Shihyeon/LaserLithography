@@ -1,6 +1,5 @@
 import serial
 import time
-import yaml
 from config import Config
 
 class Motor:
