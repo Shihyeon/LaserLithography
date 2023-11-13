@@ -27,12 +27,12 @@ class Recipe():
                 self.laser.onLaser()
                 time.sleep(self.delayDuration)
                 self.laser.offLaser()
-                self.logger.trace(f"Lithography absolute position ({target_x}, {target_y})")
+                self.logger.trace(f"Perform lithography at absolute position ({target_x}, {target_y}).")
         except Exception as e:
-            self.logger.error("")
-            raise Exception(f"")
+            self.logger.error(f"An error occurred in absolute position ({target_x}, {target_y}).")
+            raise Exception(f"An error occurred in absolute position ({target_x}, {target_y}).")
         else:
-            self.logger.success("Success Lithography")
+            self.logger.success("Success Lithography.")
 
 
 
