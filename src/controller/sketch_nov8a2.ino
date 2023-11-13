@@ -16,16 +16,17 @@ void loop() {
     
     if (data == '1') {
       laserState = true;
+      digitalWrite(9, HIGH); // 레이저를 실행
     }
     
     else if (data == '0') {
       laserState = false;
+      digitalWrite(9, LOW); // 레이저를 끔
     }
   }
 
   if (laserState) {
     for (i = 0; i < 255; i++) {
-      digitalWrite(9, HIGH);
       analogWrite(LED, i);
       delay(10);
     }
@@ -33,7 +34,5 @@ void loop() {
       analogWrite(LED, i);
       delay(10);
     }
-  } else {
-    digitalWrite(9, LOW);
   }
 }
