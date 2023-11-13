@@ -1,7 +1,7 @@
 import serial
 import time
 
-class Laser:
+class Laser():
     def __init__(self, port='COM3', baud_rate=9600):
         self.arduino = serial.Serial(port, baud_rate)
         time.sleep(1)
@@ -28,7 +28,6 @@ class Laser:
 
 if __name__ == "__main__":
     laser_controller = Laser()
-    laser_controller.controlLaser()
     laser_controller.onLaser()
     time.sleep(10)
     laser_controller.offLaser()
