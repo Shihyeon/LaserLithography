@@ -4,10 +4,10 @@ import yaml
 from config import Config
 
 class Motor:
-    def __init__ (self, port='COM3', baudrate=9600, checkRange=True):
+    def __init__(self, port='COM3', baudrate=9600, checkRange=True):
         
         config = Config()
-        
+
         # Set port and baudrate value with config
         port = config['motor']['setup']['port']
         baudrate = config['motor']['setup']['baudrate']
