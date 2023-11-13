@@ -3,11 +3,11 @@ import yaml
 import time
 from config import Config
 
-class ArduinoLaserControl:
+class Laser:
     def __init__(self, port='COM3', baudrate=9600):
         
         config = Config()
-        
+
         port = config['laser']['setup']['port']
         baudrate = config['laser']['setup']['baudrate']
 
@@ -30,7 +30,7 @@ class ArduinoLaserControl:
         self.arduino.close()
 
 if __name__ == "__main__":
-    laser = ArduinoLaserControl()
+    laser = Laser()
 
     # LED를 켜고 끄는 예시
     laser.onLaser()
