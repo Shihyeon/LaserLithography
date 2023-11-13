@@ -2,7 +2,7 @@ import serial
 import time
 
 class Laser():
-    def __init__(self, port='COM3', baud_rate=9600):
+    def __init__(self, port='COM7', baud_rate=9600):
         self.arduino = serial.Serial(port, baud_rate)
         time.sleep(1)
         self.var = '0'  # 초기 상태를 '0'으로 설정
@@ -19,7 +19,6 @@ class Laser():
 
 if __name__ == "__main__":
     laser_controller = Laser()
-    print("'1'을 입력하면 Laser ON & '0'을 입력하면 Laser OFF")
 
     # 원하는 명령을 호출하여 Laser를 제어
     laser_controller.onLaser()  # Laser를 켜는 명령
