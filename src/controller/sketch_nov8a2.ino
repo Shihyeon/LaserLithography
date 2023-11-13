@@ -10,13 +10,12 @@ void setup() {
 }
 
 void loop() {
-  if (Serial.available()) {
+  if (Serial.available() > 0) {
     data = Serial.read();
     
     if (data == '1') {
       digitalWrite(9, HIGH); // LED 켜기
-    }
-    else if (data == '0') {
+    } else if (data == '0') {
       digitalWrite(9, LOW); // LED 끄기
     }
   }
