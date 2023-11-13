@@ -30,13 +30,11 @@ class ArduinoLaserControl:
         self.arduino.close()
 
 if __name__ == "__main__":
-    arduino_port = 'COM3'  # 아두이노가 연결된 포트에 따라 변경해야 합니다.
-
-    led_controller = ArduinoLaserControl(arduino_port)
+    laser = ArduinoLaserControl()
 
     # LED를 켜고 끄는 예시
-    led_controller.onLaser()
+    laser.onLaser()
     time.sleep(2)  # LED를 켜두고 2초 대기
-    led_controller.offLaser()
+    laser.offLaser()
 
-    led_controller.close()
+    laser.close()
