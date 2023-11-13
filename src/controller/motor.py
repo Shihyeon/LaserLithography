@@ -1,13 +1,12 @@
 import serial
 import time
 import yaml
+from config import Config
 
 class Motor:
     def __init__ (self, port='COM3', baudrate=9600, checkRange=True):
         
-        # Open config
-        with open(file="src\\config.yml", mode="r") as config_file:
-            config = yaml.safe_load(config_file)
+        config = Config()
         
         # Set port and baudrate value with config
         port = config['motor']['setup']['port']
