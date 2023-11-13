@@ -1,13 +1,13 @@
 from reader import CSVDataReader
 from motor import Motor
-from laser import ArduinoLaserControl
+from laser import Laser
 from log import Logger
 import time
 
 class Recipe():
     def __init__(self):
         self.motor = Motor()
-        self.laser = ArduinoLaserControl()
+        self.laser = Laser()
         self.logInstance = Logger()
         self.logger = self.logInstance.getLogger()
         
