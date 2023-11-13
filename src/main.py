@@ -1,5 +1,5 @@
 from controller.motor import Motor
-from GUI.gui import Window
+from gui.gui import Window
 import tkinter as tk
 
 if __name__ == "__main__":
