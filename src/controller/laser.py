@@ -2,7 +2,7 @@ import serial
 import yaml
 import time
 
-class ArduinoLEDControl:
+class ArduinoLaserControl:
     def __init__(self, port='COM3', baudrate=9600):
         
         with open(file="src\\config.yml", mode="r") as config_file:
@@ -32,7 +32,7 @@ class ArduinoLEDControl:
 if __name__ == "__main__":
     arduino_port = 'COM3'  # 아두이노가 연결된 포트에 따라 변경해야 합니다.
 
-    led_controller = ArduinoLEDControl(arduino_port)
+    led_controller = ArduinoLaserControl(arduino_port)
 
     # LED를 켜고 끄는 예시
     led_controller.on()
