@@ -10,19 +10,23 @@ void setup() {
 }
 
 void loop() {
-  if (data == '1') {
-    for (i = 0; i < 255; i++) {
-      digitalWrite(9, HIGH);
-      analogWrite(LED, i);
-      delay(1);
+  if (Serial.available() > 0) {
+    data = Serial.read();
+    
+    if (data == '1') {
+      for (i = 0; i < 255; i++) {
+        digitalWrite(9, HIGH);
+        analogWrite(LED, i);
+        delay(10);
+      }
+      for (i = 255; i > 0; i--) {
+        analogWrite(LED, i);
+        delay(10);
+      }
     }
-    for (i = 255; i > 0; i--) {
-      analogWrite(LED, i);
-      delay(1);
+    
+    else if (data == '0') {
+      digitalWrite(9, LOW);
     }
   }
-  else if (data == '0') {
-    digitalWrite(9, LOW);
-  }
-
 }
