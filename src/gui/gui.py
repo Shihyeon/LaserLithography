@@ -46,7 +46,7 @@ class Window:
         # Frame3: Recipe operating Frame
         self.recipe_frame = self.setFrame(self.LargeFrame, 3, 0)
 
-        self.recipe_subtitle_00 = self.setSubTitle(self.recipe_frame, 0, 0, text="Recipe operating.", columnspan=1)
+        self.recipe_subtitle_00 = self.setSubTitle(self.recipe_frame, 0, 0, text="Recipe operating.", columnspan=5)
 
         self.run_recipe_button = tk.Button(self.recipe_frame, text="Run Recipe", width=12, font=('Arial', 11))
         self.run_recipe_button.grid(row=1, column=0, columnspan=2)
