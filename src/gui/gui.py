@@ -76,7 +76,8 @@ class Window:
         self.x_entry = tk.Entry(self.frame2, width=10, font=('Nanumgothic', 11))
         self.x_entry.grid(row=row, column=column+1)
         
-        
+    def closeWindow(self):
+        self.root.destroy()
 
 if __name__ == "__main__":
     root = tk.Tk()
