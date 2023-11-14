@@ -1,4 +1,5 @@
 import tkinter as tk
+from controller.motor import Motor
 
 class Window:
     def __init__(self, root):
@@ -84,6 +85,16 @@ class Window:
         self.x_entry = tk.Entry(self.moving_frame, width=10, font=('Arial', 11))
         self.x_entry.grid(row=row, column=column+1)
         
+    def goAbsButton(self):
+        # Disable command (버튼 커멘드가 실행되는 동안 다른 버튼을 비활성화 상태로 설정)
+        self.stop_button.config(state=tk.DISABLED)
+        self.exit_button.config(state=tk.DISABLED)
+        # code (아래에 실행할 코드 작성)
+        
+        # Enable command (실행이 끝나면 버튼을 다시 활성화 상태로 설정)
+        self.stop_button.config(state=tk.NORMAL)
+        self.exit_button.config(state=tk.NORMAL)
+
     def closeWindow(self):
         self.root.destroy()
 
