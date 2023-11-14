@@ -9,50 +9,50 @@ class Window:
         self.root.title("Laser Lithography")
         
         # Frame1: Title Frame
-        self.frame1 = self.setFrame(self.LargeFrame, 0, 0)
+        self.title_frame = self.setFrame(self.LargeFrame, 0, 0)
         
-        self.title1 = self.setTitle(self.frame1, 0, 0, text="Laser Lithography Control Window")
+        self.title1 = self.setTitle(self.title_frame, 0, 0, text="Laser Lithography Control Window")
         
-        self.empty1_10 = self.setEmptyBox(self.frame1, 1, 0, height=2)
+        self.empty1_10 = self.setEmptyBox(self.title_frame, 1, 0, height=2)
         
         # Frame2: Moving Commands Frame
-        self.frame2 = self.setFrame(self.LargeFrame, 1, 0)
+        self.moving_frame = self.setFrame(self.LargeFrame, 1, 0)
         
-        self.subtitle2_00 = self.setSubTitle(self.frame2, 0, 0, text="Test moving: Move to Position.", columnspan=5)
+        self.subtitle2_00 = self.setSubTitle(self.moving_frame, 0, 0, text="Test moving: Move to Position.", columnspan=5)
         
         # X coordinate input field and label
-        self.x_label = self.setAxisInputLabel(self.frame2, 1, 0, text="X:")
+        self.x_label = self.setAxisInputLabel(self.moving_frame, 1, 0, text="X:")
         
-        self.empty2_02 = tk.Label(self.frame2, width=2)
+        self.empty2_02 = tk.Label(self.moving_frame, width=2)
         self.empty2_02.grid(row=1, column=2)
         
         # Y coordinate input field and label
-        self.y_label = self.setAxisInputLabel(self.frame2, 1, 3, text="Y:")
+        self.y_label = self.setAxisInputLabel(self.moving_frame, 1, 3, text="Y:")
         
-        self.empty2_10 = tk.Label(self.frame2, height=1)
+        self.empty2_10 = tk.Label(self.moving_frame, height=1)
         self.empty2_10.grid(row=2, column=0)
         
         # Go button
-        self.go_abs_button = tk.Button(self.frame2, text="Go Absolute", width=12, font=('Arial', 11))
+        self.go_abs_button = tk.Button(self.moving_frame, text="Go Absolute", width=12, font=('Arial', 11))
         self.go_abs_button.grid(row=3, column=0, columnspan=2)
         
         # Stop button
-        self.stop_button = tk.Button(self.frame2, text="Stop", width=12, font=('Arial', 11))
+        self.stop_button = tk.Button(self.moving_frame, text="Stop", width=12, font=('Arial', 11))
         self.stop_button.grid(row=3, column=3, columnspan=2)
         
         
         
         # Frame3: Exit Frame
-        self.frame3 = self.setFrame(self.LargeFrame, 3, 0)
+        self.exit_frame = self.setFrame(self.LargeFrame, 3, 0)
         
-        self.empty3_00 = tk.Label(self.frame3, height=2)
+        self.empty3_00 = tk.Label(self.exit_frame, height=2)
         self.empty3_00.grid(row=0)
         
         # Exit button
-        self.exit_button = tk.Button(self.frame3, text="Exit", width=12, font=('Arial', 11), command=self.closeWindow)
+        self.exit_button = tk.Button(self.exit_frame, text="Exit", width=12, font=('Arial', 11), command=self.closeWindow)
         self.exit_button.grid(row=1)
         
-        self.empty3_20 = tk.Label(self.frame3, height=2)
+        self.empty3_20 = tk.Label(self.exit_frame, height=2)
         self.empty3_20.grid(row=2)
         
         
@@ -76,7 +76,7 @@ class Window:
     def setAxisInputLabel(self, frame, row, column, text, font=('Arial', 11)):
         self.x_label = tk.Label(frame, text=text, width=2, font=font)
         self.x_label.grid(row=row, column=column)
-        self.x_entry = tk.Entry(self.frame2, width=10, font=('Arial', 11))
+        self.x_entry = tk.Entry(self.moving_frame, width=10, font=('Arial', 11))
         self.x_entry.grid(row=row, column=column+1)
         
     def closeWindow(self):
