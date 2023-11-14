@@ -104,6 +104,17 @@ class Window:
         self.stop_button.config(state=tk.NORMAL)
         self.exit_button.config(state=tk.NORMAL)
 
+    def startRecipeButton(self):
+        self.go_abs_button.config(state=tk.DISABLED)
+        self.stop_button.config(state=tk.DISABLED)
+        self.exit_button.config(state=tk.DISABLED)
+
+        self.recipe.startRecipe
+
+        self.go_abs_button.config(state=tk.NORMAL)
+        self.stop_button.config(state=tk.NORMAL)
+        self.exit_button.config(state=tk.NORMAL)
+
     def closeWindowButton(self):
         self.root.destroy()
 
