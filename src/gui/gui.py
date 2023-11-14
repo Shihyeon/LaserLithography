@@ -3,17 +3,20 @@ import tkinter as tk
 class Window:
     def __init__(self, root):
         self.root = root
+
+        self.LargeFrame = tk.Frame(root)
+        self.LargeFrame.pack(anchor="center")
         self.root.title("Laser Lithography")
         
         # Frame1: Title Frame
-        self.frame1 = self.setFrame(root, 0, 0)
+        self.frame1 = self.setFrame(self.LargeFrame, 0, 0)
         
         self.title1 = self.setTitle(self.frame1, 0, 0, text="Laser Lithography Control Window")
         
         self.empty1_10 = self.setEmptyBox(self.frame1, 1, 0, height=2)
         
         # Frame2: Moving Commands Frame
-        self.frame2 = self.setFrame(root, 1, 0)
+        self.frame2 = self.setFrame(self.LargeFrame, 1, 0)
         
         self.subtitle2_00 = self.setSubTitle(self.frame2, 0, 0, text="Test moving: Move to Position.", columnspan=5)
         
@@ -40,7 +43,7 @@ class Window:
         
         
         # Frame3: Exit Frame
-        self.frame3 = self.setFrame(root, 3, 0)
+        self.frame3 = self.setFrame(self.LargeFrame, 3, 0)
         
         self.empty3_00 = tk.Label(self.frame3, height=2)
         self.empty3_00.grid(row=0)
