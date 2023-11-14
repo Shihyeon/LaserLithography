@@ -44,6 +44,9 @@ class Window:
 
         self.recipe_subtitle_00 = self.setSubTitle(self.recipe_frame, 0, 0, text="Recipe operating.", columnspan=5)
 
+        self.recipe_count_label = tk.Label(self.recipe_frame, text="-/-", font=('Arial', 12), relief="groove")
+        self.recipe_count_label.grid(row=1, column=0, columnspan=5)
+
         self.run_recipe_button = tk.Button(self.recipe_frame, text="Run Recipe", width=12, font=('Arial', 11))
         self.run_recipe_button.grid(row=2, column=0, columnspan=2)
 
