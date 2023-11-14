@@ -90,7 +90,7 @@ class Window:
         self.stop_button.config(state=tk.DISABLED)
         self.exit_button.config(state=tk.DISABLED)
         # code (아래에 실행할 코드 작성)
-        
+        pass
         # Enable command (실행이 끝나면 버튼을 다시 활성화 상태로 설정)
         self.stop_button.config(state=tk.NORMAL)
         self.exit_button.config(state=tk.NORMAL)
