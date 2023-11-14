@@ -39,6 +39,8 @@ class Window:
         # Stop button
         self.stop_button = tk.Button(self.moving_frame, text="Stop", width=12, font=('Arial', 11))
         self.stop_button.grid(row=3, column=3, columnspan=2)
+
+        self.moving_empty_40 = self.setEmptyBox(self.moving_frame, 4, 0, height=2)
         
         # Frame3: Recipe operating Frame
         self.recipe_frame = self.setFrame(self.LargeFrame, 3, 0)
