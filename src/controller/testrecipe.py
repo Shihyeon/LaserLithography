@@ -7,7 +7,11 @@ import time
 import threading
 
 class Recipe():
-    def __init__(self):
+    def __init__(self, app):
+        self.count = 0
+        self.stop_event = threading.Event()
+        self.app = app
+
         self.motor = Motor()
         self.laser = Laser()
         self.logInstance = Logger()
@@ -19,20 +23,19 @@ class Recipe():
         self.csv_reader = CSVDataReader(path="src\\resources\\filtered_pixel_rgb_values.csv")
         self.csv_reader.read_csv()
 
-        self.count = 0
-
-        self.stop_event = threading.Event()
-
     def stopRecipe(self):
         self.stop_event.set()
+
+    def startRecipe(self):
+        self.stop_event.clear()
+        threading.Thread(target=self.goRecipe).start()  # 새 스레드에서 goRecipe 실행
+
         
     def goRecipe(self):
         self.csv_size = len(self.csv_reader.X)
         try:
             for self.count in range(self.csv_size):
-                # Check for stop events in the middle
                 if self.stop_event.is_set():
-                    self.logger.warning("Recipe execution stopped by user.")
                     break
                 self.target_x = self.motor.init_x_pos + self.csv_reader.X[self.count]
                 self.target_y = self.motor.init_y_pos + self.csv_reader.Y[self.count]
@@ -40,6 +43,7 @@ class Recipe():
                 self.laser.onLaser()
                 time.sleep(self.delayDuration)
                 self.laser.offLaser()
+                self.updateCountLabel()
                 self.logger.trace(f"Perform lithography at absolute position ({self.target_x}, {self.target_y}).")
         except Exception as e:
             self.logger.error(f"An error occurred in absolute position ({self.target_x}, {self.target_y}).")
@@ -47,6 +51,8 @@ class Recipe():
         else:
             self.logger.success("Success Lithography.")
 
+    def updateCountLabel(self):
+        self.app.root.after(0, self.app.updateCountLabel)  # GUI 업데이트 요청
 
 
 if __name__ == "__main__":
