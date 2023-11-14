@@ -155,7 +155,7 @@ class Window:
         self.root.destroy()
 
     def updateCountLabel(self):
-        self.recipe_count_label.config(text=f"{self.recipe.count}/{self.recioe.csv_size}")
+        self.recipe_count_label.config(text=f"{self.recipe.count}/{self.recipe.csv_size}")
 
 if __name__ == "__main__":
     root = tk.Tk()
