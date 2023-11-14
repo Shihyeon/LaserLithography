@@ -50,6 +50,12 @@ class Window:
 
         self.run_recipe_button = tk.Button(self.recipe_frame, text="Run Recipe", width=12, font=('Arial', 11))
         self.run_recipe_button.grid(row=1, column=0, columnspan=2)
+
+        self.recipe_empty_12 = tk.Label(self.recipe_frame, width=2)
+        self.recipe_empty_12.grid(row=1, column=2)
+
+        self.stop_recipe_button = tk.Button(self.recipe_frame, text="Stop Recipe", width=12, font=('Arial', 11))
+        self.stop_recipe_button.grid(row=1, column=3, columnspan=2)
         
         # Frame4: Exit Frame
         self.exit_frame = self.setFrame(self.LargeFrame, 4, 0)
