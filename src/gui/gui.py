@@ -18,7 +18,7 @@ class Window:
         # Frame2: Moving Commands Frame
         self.moving_frame = self.setFrame(self.LargeFrame, 1, 0)
         
-        self.subtitle2_00 = self.setSubTitle(self.moving_frame, 0, 0, text="Test moving: Move to Position.", columnspan=5)
+        self.moving_subtitle_00 = self.setSubTitle(self.moving_frame, 0, 0, text="Test moving: Move to Position.", columnspan=5)
         
         # X coordinate input field and label
         self.x_label = self.setAxisInputLabel(self.moving_frame, 1, 0, text="X:")
