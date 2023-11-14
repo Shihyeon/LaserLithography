@@ -46,7 +46,7 @@ class Window:
         self.empty3_00.grid(row=0)
         
         # Exit button
-        self.exit_button = tk.Button(self.frame3, text="Exit", width=12, font=('Nanumgothic', 11))
+        self.exit_button = tk.Button(self.frame3, text="Exit", width=12, font=('Nanumgothic', 11), command=self.closeWindow)
         self.exit_button.grid(row=1)
         
         self.empty3_20 = tk.Label(self.frame3, height=2)
