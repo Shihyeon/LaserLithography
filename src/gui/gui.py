@@ -13,7 +13,7 @@ class Window:
         
         self.title1 = self.setTitle(self.title_frame, 0, 0, text="Laser Lithography Control Window")
         
-        self.empty1_10 = self.setEmptyBox(self.title_frame, 1, 0, height=2)
+        self.title_empty_10 = self.setEmptyBox(self.title_frame, 1, 0, height=2)
         
         # Frame2: Moving Commands Frame
         self.moving_frame = self.setFrame(self.LargeFrame, 1, 0)
@@ -23,14 +23,14 @@ class Window:
         # X coordinate input field and label
         self.x_label = self.setAxisInputLabel(self.moving_frame, 1, 0, text="X:")
         
-        self.empty2_02 = tk.Label(self.moving_frame, width=2)
-        self.empty2_02.grid(row=1, column=2)
+        self.moving_empty_02 = tk.Label(self.moving_frame, width=2)
+        self.moving_empty_02.grid(row=1, column=2)
         
         # Y coordinate input field and label
         self.y_label = self.setAxisInputLabel(self.moving_frame, 1, 3, text="Y:")
         
-        self.empty2_10 = tk.Label(self.moving_frame, height=1)
-        self.empty2_10.grid(row=2, column=0)
+        self.moving_empty_10 = tk.Label(self.moving_frame, height=1)
+        self.moving_empty_10.grid(row=2, column=0)
         
         # Go button
         self.go_abs_button = tk.Button(self.moving_frame, text="Go Absolute", width=12, font=('Arial', 11))
@@ -50,15 +50,15 @@ class Window:
         # Frame4: Exit Frame
         self.exit_frame = self.setFrame(self.LargeFrame, 4, 0)
         
-        self.empty3_00 = tk.Label(self.exit_frame, height=2)
-        self.empty3_00.grid(row=0)
+        self.exit_empty_00 = tk.Label(self.exit_frame, height=2)
+        self.exit_empty_00.grid(row=0)
         
         # Exit button
         self.exit_button = tk.Button(self.exit_frame, text="Exit", width=12, font=('Arial', 11), command=self.closeWindow)
         self.exit_button.grid(row=1)
         
-        self.empty3_20 = tk.Label(self.exit_frame, height=2)
-        self.empty3_20.grid(row=2)
+        self.exit_empty_20 = tk.Label(self.exit_frame, height=2)
+        self.exit_empty_20.grid(row=2)
         
         
     def setFrame(self, root, row, column, rowspan=1, columnspan=1):
