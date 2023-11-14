@@ -5,7 +5,8 @@ from config import Config
 class Motor:
     def __init__(self, port='COM3', baudrate=9600, checkRange=True):
         
-        config = Config()
+        configInstance = Config()
+        config = configInstance.configuration
 
         # Set port and baudrate value with config
         port = config['motor']['setup']['port']
