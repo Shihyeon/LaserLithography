@@ -1,5 +1,5 @@
 import tkinter as tk
-from controller.motor import Motor
+# from controller.motor import Motor
 
 class Window:
     def __init__(self, root):
@@ -47,6 +47,9 @@ class Window:
         self.recipe_frame = self.setFrame(self.LargeFrame, 3, 0)
 
         self.recipe_subtitle_00 = self.setSubTitle(self.recipe_frame, 0, 0, text="Recipe operating.", columnspan=1)
+
+        self.go_recipe_button = tk.Button(self.recipe_frame, text="Go Absolute", width=12, font=('Arial', 11))
+        self.go_recipe_button.grid(row=1, column=0, columnspan=2)
         
         # Frame4: Exit Frame
         self.exit_frame = self.setFrame(self.LargeFrame, 4, 0)
