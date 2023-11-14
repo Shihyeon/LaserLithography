@@ -19,6 +19,8 @@ class Recipe():
         self.csv_reader = CSVDataReader(path="src\\resources\\filtered_pixel_rgb_values.csv")
         self.csv_reader.read_csv()
 
+        self.count = 0
+
         self.stop_event = threading.Event()
 
     def stopRecipe(self):
