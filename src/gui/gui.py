@@ -95,7 +95,7 @@ class Window:
         self.stop_button.config(state=tk.NORMAL)
         self.exit_button.config(state=tk.NORMAL)
 
-    def closeWindow(self):
+    def closeWindowButton(self):
         self.root.destroy()
 
 if __name__ == "__main__":
