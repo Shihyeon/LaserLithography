@@ -40,10 +40,13 @@ class Window:
         self.stop_button = tk.Button(self.moving_frame, text="Stop", width=12, font=('Arial', 11))
         self.stop_button.grid(row=3, column=3, columnspan=2)
         
+        # Frame3: Recipe operating Frame
+        self.recipe_frame = self.setFrame(self.LargeFrame, 3, 0)
+
+        self.recipe_subtitle_00 = self.setSubTitle(self.recipe_frame, 0, 0, text="Recipe operating.", columnspan=1)
         
-        
-        # Frame3: Exit Frame
-        self.exit_frame = self.setFrame(self.LargeFrame, 3, 0)
+        # Frame4: Exit Frame
+        self.exit_frame = self.setFrame(self.LargeFrame, 4, 0)
         
         self.empty3_00 = tk.Label(self.exit_frame, height=2)
         self.empty3_00.grid(row=0)
