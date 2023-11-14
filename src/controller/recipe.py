@@ -22,16 +22,16 @@ class Recipe():
         self.csv_size = len(self.csv_reader.X)
         try:
             for self.count in range(self.csv_size):
-                target_x = self.motor.init_x_pos + self.csv_reader.X[self.count]
-                target_y = self.motor.init_y_pos + self.csv_reader.Y[self.count]
-                self.motor.goAbs(target_x, target_y)
+                self.target_x = self.motor.init_x_pos + self.csv_reader.X[self.count]
+                self.target_y = self.motor.init_y_pos + self.csv_reader.Y[self.count]
+                self.motor.goAbs(self.target_x, self.target_y)
                 self.laser.onLaser()
                 time.sleep(self.delayDuration)
                 self.laser.offLaser()
-                self.logger.trace(f"Perform lithography at absolute position ({target_x}, {target_y}).")
+                self.logger.trace(f"Perform lithography at absolute position ({self.target_x}, {self.target_y}).")
         except Exception as e:
-            self.logger.error(f"An error occurred in absolute position ({target_x}, {target_y}).")
-            raise Exception(f"An error occurred in absolute position ({target_x}, {target_y}).")
+            self.logger.error(f"An error occurred in absolute position ({self.target_x}, {self.target_y}).")
+            raise Exception(f"An error occurred in absolute position ({self.target_x}, {self.target_y}).")
         else:
             self.logger.success("Success Lithography.")
 
