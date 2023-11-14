@@ -5,7 +5,8 @@ from config import Config
 class Laser:
     def __init__(self, port='COM3', baudrate=9600):
         
-        config = Config()
+        configInstance = Config()
+        config = configInstance.configuration
 
         port = config['laser']['setup']['port']
         baudrate = config['laser']['setup']['baudrate']
