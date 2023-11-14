@@ -65,9 +65,9 @@ class Window:
         self.title_label = tk.Label(frame, text=text, width=width, font=font)
         self.title_label.grid(row=row, column=column, rowspan=rowspan, columnspan=columnspan)
         
-    def setSubTitle(self, frame, row, column, text, rowspan=1, columnspan=1, font=('Arial', 12)):
-        self.subtitle_label = tk.Label(frame, text=text, font=font)
-        self.subtitle_label.grid(row=row, column=column, rowspan=rowspan, columnspan=columnspan)
+    def setSubTitle(self, frame, row, column, text, rowspan=1, columnspan=1, bg="#E0E0E0", font=('Arial', 12)):
+        self.subtitle_label = tk.Label(frame, text=text, bg=bg, font=font, justify=tk.LEFT)
+        self.subtitle_label.grid(row=row, column=column, rowspan=rowspan, columnspan=columnspan, sticky='w')
         
     def setEmptyBox(self, frame, row, column, width=1, height=1):
         self.emptybox = tk.Label(frame, width=width, height=height)
