@@ -1,9 +1,11 @@
 import tkinter as tk
+from controller.recipe import Recipe
 # from controller.motor import Motor
 
 class Window:
     def __init__(self, root):
         self.root = root
+        self.recipe = Recipe(self)
 
         self.LargeFrame = tk.Frame(root)
         self.LargeFrame.pack(anchor="center")
@@ -104,6 +106,9 @@ class Window:
 
     def closeWindowButton(self):
         self.root.destroy()
+
+    def updateCountLabel(self):
+        self.recipe_count_label.config(text=f"{self.recipe.count}/{self.recioe.csv_size}")
 
 if __name__ == "__main__":
     root = tk.Tk()
