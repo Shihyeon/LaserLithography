@@ -19,11 +19,11 @@ class Recipe():
         self.csv_reader.read_csv()
         
     def goRecipe(self):
-        csv_size = len(self.csv_reader.X)
+        self.csv_size = len(self.csv_reader.X)
         try:
-            for i in range(csv_size):
-                target_x = self.motor.init_x_pos + self.csv_reader.X[i]
-                target_y = self.motor.init_y_pos + self.csv_reader.Y[i]
+            for self.count in range(self.csv_size):
+                target_x = self.motor.init_x_pos + self.csv_reader.X[self.count]
+                target_y = self.motor.init_y_pos + self.csv_reader.Y[self.count]
                 self.motor.goAbs(target_x, target_y)
                 self.laser.onLaser()
                 time.sleep(self.delayDuration)
