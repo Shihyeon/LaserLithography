@@ -33,10 +33,10 @@ class Window:
         self.moving_empty_10 = tk.Label(self.moving_frame, height=1)
         self.moving_empty_10.grid(row=2, column=0)
         
-        self.go_abs_button = tk.Button(self.moving_frame, text="Go Absolute", width=12, font=('Arial', 11))
+        self.go_abs_button = tk.Button(self.moving_frame, text="Go Absolute", width=12, font=('Arial', 11), command=self.goAbsButton)
         self.go_abs_button.grid(row=3, column=0, columnspan=2)
         
-        self.stop_button = tk.Button(self.moving_frame, text="Stop", width=12, font=('Arial', 11))
+        self.stop_button = tk.Button(self.moving_frame, text="Stop", width=12, font=('Arial', 11), command=self.stopAbsButton)
         self.stop_button.grid(row=3, column=3, columnspan=2)
 
         self.moving_empty_40 = self.setEmptyBox(self.moving_frame, 4, 0, height=2)
@@ -49,13 +49,13 @@ class Window:
         self.recipe_count_label = tk.Label(self.recipe_frame, text="-/-", font=('Arial', 12), relief="groove")
         self.recipe_count_label.grid(row=1, column=0, columnspan=5)
 
-        self.run_recipe_button = tk.Button(self.recipe_frame, text="Run Recipe", width=12, font=('Arial', 11))
+        self.run_recipe_button = tk.Button(self.recipe_frame, text="Run Recipe", width=12, font=('Arial', 11), command=self.startRecipeButton)
         self.run_recipe_button.grid(row=2, column=0, columnspan=2)
 
         self.recipe_empty_12 = tk.Label(self.recipe_frame, width=2)
         self.recipe_empty_12.grid(row=2, column=2)
 
-        self.stop_recipe_button = tk.Button(self.recipe_frame, text="Stop Recipe", width=12, font=('Arial', 11))
+        self.stop_recipe_button = tk.Button(self.recipe_frame, text="Stop Recipe", width=12, font=('Arial', 11), command=self.stopRecipeButton)
         self.stop_recipe_button.grid(row=2, column=3, columnspan=2)
         
         # Frame4: Exit Frame
