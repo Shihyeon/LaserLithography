@@ -3,7 +3,7 @@ import time
 from config import Config
 
 class Laser:
-    def __init__(self, port='COM3', baudrate=9600):
+    def __init__(self, port='COM4', baudrate=9600):
         
         configInstance = Config()
         config = configInstance.configuration
