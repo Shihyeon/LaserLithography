@@ -21,23 +21,19 @@ class Window:
         
         self.moving_subtitle_00 = self.setSubTitle(self.moving_frame, 0, 0, text="Test moving: Move to Position.", columnspan=5)
         
-        # X coordinate input field and label
         self.x_label = self.setAxisInputLabel(self.moving_frame, 1, 0, text="X:")
         
         self.moving_empty_02 = tk.Label(self.moving_frame, width=2)
         self.moving_empty_02.grid(row=1, column=2)
         
-        # Y coordinate input field and label
         self.y_label = self.setAxisInputLabel(self.moving_frame, 1, 3, text="Y:")
         
         self.moving_empty_10 = tk.Label(self.moving_frame, height=1)
         self.moving_empty_10.grid(row=2, column=0)
         
-        # Go button
         self.go_abs_button = tk.Button(self.moving_frame, text="Go Absolute", width=12, font=('Arial', 11))
         self.go_abs_button.grid(row=3, column=0, columnspan=2)
         
-        # Stop button
         self.stop_button = tk.Button(self.moving_frame, text="Stop", width=12, font=('Arial', 11))
         self.stop_button.grid(row=3, column=3, columnspan=2)
 
@@ -63,7 +59,6 @@ class Window:
         self.exit_empty_00 = tk.Label(self.exit_frame, height=2)
         self.exit_empty_00.grid(row=0)
         
-        # Exit button
         self.exit_button = tk.Button(self.exit_frame, text="Exit", width=12, font=('Arial', 11), command=self.closeWindowButton)
         self.exit_button.grid(row=1)
         
