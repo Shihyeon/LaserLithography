@@ -256,8 +256,17 @@ class Recipe():
     def updateCountLabel(self):
         self.app.root.after(0, self.app.updateCountLabel)  # GUI 업데이트 요청
 
-    def goAbs(self, x, y):
-        self.motor.goAbs(x, y)
+    def startAbs(self, x, y):
+        if not self.isRunning():  # 작업이 실행 중이지 않은 경우에만 실행
+            self.motor.goAbs(x, y)
+            self.is_running = True  # 작업이 시작됨을 표시
+            print("Starting Abs")
+
+    def stopAbs(self):
+        if self.isRunning():  # 작업이 실행 중인 경우에만 실행
+            pass  # 예시로 motor를 중지하는 코드를 추가할 수 있습니다.
+            self.is_running = False  # 작업이 중지됨을 표시
+            print("Stopping Abs")
 
 class Window:
     def __init__(self, root):
