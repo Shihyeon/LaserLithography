@@ -256,6 +256,9 @@ class Recipe():
     def updateCountLabel(self):
         self.app.root.after(0, self.app.updateCountLabel)  # GUI 업데이트 요청
 
+    def goAbs(self, x, y):
+        self.motor.goAbs(x, y)
+
 class Window:
     def __init__(self, root):
         self.root = root
