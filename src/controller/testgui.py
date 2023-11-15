@@ -131,6 +131,7 @@ class Window:
         self.exit_button.config(state=tk.DISABLED)
 
         self.recipe.startRecipe
+        print("On startRecipeButton")
 
         self.go_abs_button.config(state=tk.NORMAL)
         self.stop_button.config(state=tk.NORMAL)
@@ -146,6 +147,7 @@ class Window:
             self.exit_button.config(state=tk.DISABLED)
 
             self.recipe.stopRecipe
+            print("On stopRecipeButton")
 
             self.go_abs_button.config(state=tk.NORMAL)
             self.stop_button.config(state=tk.NORMAL)
