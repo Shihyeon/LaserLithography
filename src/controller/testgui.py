@@ -109,19 +109,20 @@ class Window:
         self.exit_button.config(state=tk.NORMAL)
 
     def stopAbsButton(self):
-        self.go_abs_button.config(state=tk.DISABLED)
-        self.stop_button.config(state=tk.DISABLED)
-        self.run_recipe_button.config(state=tk.DISABLED)
-        self.stop_recipe_button.config(state=tk.DISABLED)
-        self.exit_button.config(state=tk.DISABLED)
+        if self.goAbsButton == True:
+            self.go_abs_button.config(state=tk.DISABLED)
+            self.stop_button.config(state=tk.DISABLED)
+            self.run_recipe_button.config(state=tk.DISABLED)
+            self.stop_recipe_button.config(state=tk.DISABLED)
+            self.exit_button.config(state=tk.DISABLED)
 
-        pass
+            pass
 
-        self.go_abs_button.config(state=tk.NORMAL)
-        self.stop_button.config(state=tk.NORMAL)
-        self.run_recipe_button.config(state=tk.NORMAL)
-        self.stop_recipe_button.config(state=tk.NORMAL)
-        self.exit_button.config(state=tk.NORMAL)
+            self.go_abs_button.config(state=tk.NORMAL)
+            self.stop_button.config(state=tk.NORMAL)
+            self.run_recipe_button.config(state=tk.NORMAL)
+            self.stop_recipe_button.config(state=tk.NORMAL)
+            self.exit_button.config(state=tk.NORMAL)
 
     def startRecipeButton(self):
         self.go_abs_button.config(state=tk.DISABLED)
@@ -137,19 +138,20 @@ class Window:
         self.exit_button.config(state=tk.NORMAL)
 
     def stopRecipeButton(self):
-        self.go_abs_button.config(state=tk.DISABLED)
-        self.stop_button.config(state=tk.DISABLED)
-        self.run_recipe_button.config(state=tk.DISABLED)
-        self.stop_recipe_button.config(state=tk.DISABLED)
-        self.exit_button.config(state=tk.DISABLED)
+        if self.startRecipeButton == True:
+            self.go_abs_button.config(state=tk.DISABLED)
+            self.stop_button.config(state=tk.DISABLED)
+            self.run_recipe_button.config(state=tk.DISABLED)
+            self.stop_recipe_button.config(state=tk.DISABLED)
+            self.exit_button.config(state=tk.DISABLED)
 
-        self.recipe.stopRecipe
+            self.recipe.stopRecipe
 
-        self.go_abs_button.config(state=tk.NORMAL)
-        self.stop_button.config(state=tk.NORMAL)
-        self.run_recipe_button.config(state=tk.NORMAL)
-        self.stop_recipe_button.config(state=tk.DISABLED)
-        self.exit_button.config(state=tk.NORMAL)
+            self.go_abs_button.config(state=tk.NORMAL)
+            self.stop_button.config(state=tk.NORMAL)
+            self.run_recipe_button.config(state=tk.NORMAL)
+            self.stop_recipe_button.config(state=tk.DISABLED)
+            self.exit_button.config(state=tk.NORMAL)
 
     def closeWindowButton(self):
         self.root.destroy()
