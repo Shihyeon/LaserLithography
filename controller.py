@@ -304,7 +304,7 @@ class Window:
         self.moving_empty_20 = tk.Label(self.moving_frame, height=1)
         self.moving_empty_20.grid(row=3, column=0)
         
-        self.go_abs_button = tk.Button(self.moving_frame, text="Go Absolute", width=12, font=('Arial', 11), command=self.goAbsButton)
+        self.go_abs_button = tk.Button(self.moving_frame, text="Go Absolute", width=12, font=('Arial', 11), command=self.startAbsButton)
         self.go_abs_button.grid(row=4, column=0, columnspan=2)
         
         self.stop_button = tk.Button(self.moving_frame, text="Stop", width=12, font=('Arial', 11), command=self.stopAbsButton)
@@ -383,7 +383,7 @@ class Window:
         self.x_entry = tk.Entry(self.moving_frame, width=10, font=('Arial', 11))
         self.x_entry.grid(row=row, column=column+1)
         
-    def goAbsButton(self):
+    def startAbsButton(self):
         # Disable command (버튼 커멘드가 실행되는 동안 다른 버튼을 비활성화 상태로 설정)
         self.go_abs_button.config(state=tk.DISABLED)
         self.run_recipe_button.config(state=tk.DISABLED)
