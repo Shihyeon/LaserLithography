@@ -3,7 +3,7 @@ import torch
 import torchvision.transforms as tr
 import csv
 
-class ImageProcessor:
+class ImageConverter:
     def __init__(self, image_path, output_csv):
         self.image_path = image_path
         self.output_csv = output_csv
@@ -52,7 +52,7 @@ if __name__ == "__main__":
     image_path = 'resources\\input_image.jpg'
     output_csv = 'resources\\filtered_pixel_rgb_values.csv'
 
-    # ImageProcessor 클래스의 인스턴스를 생성하고 이미지 처리를 실행합니다.
-    image_processor = ImageProcessor(image_path, output_csv)
+    # ImageConverter 클래스의 인스턴스를 생성하고 이미지 처리를 실행합니다.
+    image_processor = ImageConverter(image_path, output_csv)
     image_processor.process_image()
     image_processor.filter_result()
