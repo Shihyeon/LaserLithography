@@ -8,6 +8,7 @@ class Window:
     def __init__(self, root):
         self.root = root
         self.recipe = Recipe(self)
+        self.app = self
 
         self.LargeFrame = tk.Frame(root)
         self.LargeFrame.pack(anchor="center")
@@ -48,7 +49,7 @@ class Window:
 
         self.recipe_subtitle_00 = self.setSubTitle(self.recipe_frame, 0, 0, text="Recipe operating.", columnspan=5)
 
-        self.recipe_count_label = tk.Label(self.recipe_frame, text="-/-", font=('Arial', 12))
+        self.recipe_count_label = tk.Label(self.recipe_frame, text="- / -", font=('Arial', 12))
         self.recipe_count_label.grid(row=1, column=0, columnspan=5)
 
         self.run_recipe_button = tk.Button(self.recipe_frame, text="Run Recipe", width=12, font=('Arial', 11), command=self.startRecipeButton)
@@ -168,6 +169,12 @@ class Window:
             self.recipe.stopRecipe()
             print("On stopRecipeButton")
 
+            # Recipe 작업이 완료될 때까지 대기
+            while self.recipe.isRunning():
+                time.sleep(0.1)  # 일시적으로 대기, 적절한 대기 방법으로 변경 가능
+
+            self.runRecipeEnableButtons()
+
             self.go_abs_button.config(state=tk.NORMAL)
             self.stop_button.config(state=tk.NORMAL)
             self.run_recipe_button.config(state=tk.NORMAL)
@@ -178,7 +185,10 @@ class Window:
         self.root.destroy()
 
     def updateCountLabel(self):
-        self.recipe_count_label.config(text=f"{self.recipe.count}/{self.recipe.csv_size}")
+        count_str = str(self.recipe.count).zfill(len(str(self.recipe.csv_size)))
+        csv_size_str = str(self.recipe.csv_size)
+        formatted_text = f"{count_str} / {csv_size_str}"
+        self.recipe_count_label.config(text=formatted_text, justify='center')
 
 if __name__ == "__main__":
     root = tk.Tk()
