@@ -10,6 +10,7 @@ class Recipe():
     def __init__(self, app):
         self.count = 0
         self.stop_event = threading.Event()
+        self.is_running = False  # 작업 실행 여부를 나타내는 플래그
         self.app = app
 
         self.motor = Motor()
@@ -25,10 +26,15 @@ class Recipe():
 
     def stopRecipe(self):
         self.stop_event.set()
+        self.is_running = False  # 작업이 중지됨을 표시
 
     def startRecipe(self):
         self.stop_event.clear()
         threading.Thread(target=self.goRecipe).start()  # 새 스레드에서 goRecipe 실행
+        self.is_running = True  # 작업이 시작됨을 표시
+
+    def isRunning(self):
+        return self.is_running
 
         
     def goRecipe(self):
