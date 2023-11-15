@@ -4,6 +4,7 @@ motor:
     # Port to which Motor controller is connected.
     port: COM3
     baudrate: 9600
+    check_range: False
   x_axis:
     l_speed: 400
     f_speed: 400
