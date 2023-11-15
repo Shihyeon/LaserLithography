@@ -1,4 +1,4 @@
-from src.controller.testgui import Window
+from controller import Window
 import tkinter as tk
 
 if __name__ == "__main__":
