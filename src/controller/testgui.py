@@ -24,47 +24,68 @@ class Window:
         # Frame2: Moving Commands Frame
         self.moving_frame = self.setFrame(self.LargeFrame, 1, 0)
         
-        self.moving_subtitle_00 = self.setSubTitle(self.moving_frame, 0, 0, text="Test moving: Move to Position.", columnspan=5)
+        self.moving_subtitle_00 = self.setSubTitle(self.moving_frame, 0, 0, text="< Test moving: Move to Position >", columnspan=5)
+
+        self.moving_empty_10 = tk.Label(self.moving_frame, height=1)
+        self.moving_empty_10.grid(row=1, column=0)
         
-        self.x_label = self.setAxisInputLabel(self.moving_frame, 1, 0, text="X:")
+        self.x_label = self.setAxisInputLabel(self.moving_frame, 2, 0, text="X:")
         
         self.moving_empty_02 = tk.Label(self.moving_frame, width=2)
-        self.moving_empty_02.grid(row=1, column=2)
+        self.moving_empty_02.grid(row=2, column=2)
         
-        self.y_label = self.setAxisInputLabel(self.moving_frame, 1, 3, text="Y:")
+        self.y_label = self.setAxisInputLabel(self.moving_frame, 2, 3, text="Y:")
         
-        self.moving_empty_10 = tk.Label(self.moving_frame, height=1)
-        self.moving_empty_10.grid(row=2, column=0)
+        self.moving_empty_20 = tk.Label(self.moving_frame, height=1)
+        self.moving_empty_20.grid(row=3, column=0)
         
         self.go_abs_button = tk.Button(self.moving_frame, text="Go Absolute", width=12, font=('Arial', 11), command=self.goAbsButton)
-        self.go_abs_button.grid(row=3, column=0, columnspan=2)
+        self.go_abs_button.grid(row=4, column=0, columnspan=2)
         
         self.stop_button = tk.Button(self.moving_frame, text="Stop", width=12, font=('Arial', 11), command=self.stopAbsButton)
-        self.stop_button.grid(row=3, column=3, columnspan=2)
+        self.stop_button.grid(row=4, column=3, columnspan=2)
 
-        self.moving_empty_40 = self.setEmptyBox(self.moving_frame, 4, 0, height=2)
+        self.moving_empty_40 = self.setEmptyBox(self.moving_frame, 5, 0, height=3)
         
         # Frame3: Recipe operating Frame
         self.recipe_frame = self.setFrame(self.LargeFrame, 3, 0)
 
-        self.recipe_subtitle_00 = self.setSubTitle(self.recipe_frame, 0, 0, text="Recipe operating.", columnspan=5)
+        self.recipe_subtitle_00 = self.setSubTitle(self.recipe_frame, 0, 0, text="< Recipe operating >", columnspan=5)
+
+        self.recipe_empty_10 = tk.Label(self.recipe_frame, height=1)
+        self.recipe_empty_10.grid(row=1, column=0)
+
+        self.scan_count_label = tk.Label(self.recipe_frame, text="- / -", font=('Arial', 12))
+        self.scan_count_label.grid(row=2, column=0, columnspan=5)
+
+        self.run_scan_button = tk.Button(self.recipe_frame, text="Run Scanning", width=12, font=('Arial', 11))
+        self.run_scan_button.grid(row=3, column=0, columnspan=2)
+
+        self.recipe_empty_32 = tk.Label(self.recipe_frame, width=2)
+        self.recipe_empty_32.grid(row=3, column=2)
+
+        self.stop_scan_button = tk.Button(self.recipe_frame, text="Stop Scanning", width=12, font=('Arial', 11))
+        self.stop_scan_button.grid(row=3, column=3, columnspan=2)
+
+        self.recipe_empty_40 = tk.Label(self.recipe_frame, height=1)
+        self.recipe_empty_40.grid(row=4, column=0)
 
         self.recipe_count_label = tk.Label(self.recipe_frame, text="- / -", font=('Arial', 12))
-        self.recipe_count_label.grid(row=1, column=0, columnspan=5)
+        self.recipe_count_label.grid(row=5, column=0, columnspan=5)
 
         self.run_recipe_button = tk.Button(self.recipe_frame, text="Run Recipe", width=12, font=('Arial', 11), command=self.startRecipeButton)
-        self.run_recipe_button.grid(row=2, column=0, columnspan=2)
+        self.run_recipe_button.grid(row=6, column=0, columnspan=2)
 
-        self.recipe_empty_12 = tk.Label(self.recipe_frame, width=2)
-        self.recipe_empty_12.grid(row=2, column=2)
+        self.recipe_empty_62 = tk.Label(self.recipe_frame, width=2)
+        self.recipe_empty_62.grid(row=6, column=2)
 
         self.stop_recipe_button = tk.Button(self.recipe_frame, text="Stop Recipe", width=12, font=('Arial', 11), command=self.stopRecipeButton)
-        self.stop_recipe_button.grid(row=2, column=3, columnspan=2)
+        self.stop_recipe_button.grid(row=6, column=3, columnspan=2)
         
         # Frame4: Exit Frame
         self.exit_frame = self.setFrame(self.LargeFrame, 4, 0)
         
-        self.exit_empty_00 = tk.Label(self.exit_frame, height=2)
+        self.exit_empty_00 = tk.Label(self.exit_frame, height=3)
         self.exit_empty_00.grid(row=0)
         
         self.exit_button = tk.Button(self.exit_frame, text="Exit", width=12, font=('Arial', 11), command=self.closeWindowButton)
@@ -134,6 +155,8 @@ class Window:
         if not self.recipe.isRunning():  # 작업이 실행 중이지 않은 경우에만 실행
             self.go_abs_button.config(state=tk.DISABLED)
             self.stop_button.config(state=tk.DISABLED)
+            self.run_scan_button.config(state=tk.DISABLED)
+            self.stop_scan_button.config(state=tk.DISABLED)
             self.run_recipe_button.config(state=tk.DISABLED)
             self.exit_button.config(state=tk.DISABLED)
 
@@ -154,6 +177,8 @@ class Window:
     def runRecipeEnableButtons(self):
         self.go_abs_button.config(state=tk.NORMAL)
         self.stop_button.config(state=tk.NORMAL)
+        self.run_scan_button.config(state=tk.NORMAL)
+        self.stop_scan_button.config(state=tk.NORMAL)
         self.run_recipe_button.config(state=tk.NORMAL)
         self.exit_button.config(state=tk.NORMAL)
 
@@ -162,6 +187,8 @@ class Window:
         if self.recipe.isRunning():  # 작업이 실행 중인 경우에만 실행
             self.go_abs_button.config(state=tk.DISABLED)
             self.stop_button.config(state=tk.DISABLED)
+            self.run_scan_button.config(state=tk.DISABLED)
+            self.stop_scan_button.config(state=tk.DISABLED)
             self.run_recipe_button.config(state=tk.DISABLED)
             self.stop_recipe_button.config(state=tk.DISABLED)
             self.exit_button.config(state=tk.DISABLED)
@@ -177,6 +204,8 @@ class Window:
 
             self.go_abs_button.config(state=tk.NORMAL)
             self.stop_button.config(state=tk.NORMAL)
+            self.run_scan_button.config(state=tk.NORMAL)
+            self.stop_scan_button.config(state=tk.NORMAL)
             self.run_recipe_button.config(state=tk.NORMAL)
             self.stop_recipe_button.config(state=tk.NORMAL)
             self.exit_button.config(state=tk.NORMAL)
