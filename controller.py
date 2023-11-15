@@ -294,12 +294,18 @@ class Window:
         self.moving_empty_10 = tk.Label(self.moving_frame, height=1)
         self.moving_empty_10.grid(row=1, column=0)
         
-        self.x_label = self.setAxisInputLabel(self.moving_frame, 2, 0, text="X:")
+        self.x_label = tk.Label(self.moving_frame, text="X:", width=2, font=('Arial', 11))
+        self.x_label.grid(row=2, column=0)
+        self.x_entry = tk.Entry(self.moving_frame, width=10, font=('Arial', 11))
+        self.x_entry.grid(row=2, column=1)
         
         self.moving_empty_02 = tk.Label(self.moving_frame, width=2)
         self.moving_empty_02.grid(row=2, column=2)
         
-        self.y_label = self.setAxisInputLabel(self.moving_frame, 2, 3, text="Y:")
+        self.y_label = tk.Label(self.moving_frame, text="Y:", width=2, font=('Arial', 11))
+        self.y_label.grid(row=2, column=3)
+        self.y_entry = tk.Entry(self.moving_frame, width=10, font=('Arial', 11))
+        self.y_entry.grid(row=2, column=4)
         
         self.moving_empty_20 = tk.Label(self.moving_frame, height=1)
         self.moving_empty_20.grid(row=3, column=0)
@@ -377,43 +383,60 @@ class Window:
         self.emptybox = tk.Label(frame, width=width, height=height)
         self.emptybox.grid(row=row, column=column)
         
-    def setAxisInputLabel(self, frame, row, column, text, font=('Arial', 11)):
-        self.x_label = tk.Label(frame, text=text, width=2, font=font)
-        self.x_label.grid(row=row, column=column)
-        self.x_entry = tk.Entry(self.moving_frame, width=10, font=('Arial', 11))
-        self.x_entry.grid(row=row, column=column+1)
-        
     def startAbsButton(self):
-        # Disable command (버튼 커멘드가 실행되는 동안 다른 버튼을 비활성화 상태로 설정)
-        self.go_abs_button.config(state=tk.DISABLED)
-        self.run_recipe_button.config(state=tk.DISABLED)
-        self.stop_recipe_button.config(state=tk.DISABLED)
-        self.exit_button.config(state=tk.DISABLED)
-        # code (아래에 실행할 코드 작성)
-        pass
-        print("On goAbsButto")
-        # Enable command (실행이 끝나면 버튼을 다시 활성화 상태로 설정)
-        self.go_abs_button.config(state=tk.NORMAL)
-        self.run_recipe_button.config(state=tk.NORMAL)
-        self.stop_recipe_button.config(state=tk.NORMAL)
-        self.exit_button.config(state=tk.NORMAL)
+        if not self.recipe.isRunning():
+            # Disable command (버튼 커멘드가 실행되는 동안 다른 버튼을 비활성화 상태로 설정)
+            self.go_abs_button.config(state=tk.DISABLED)
+            self.run_recipe_button.config(state=tk.DISABLED)
+            self.stop_recipe_button.config(state=tk.DISABLED)
+            self.exit_button.config(state=tk.DISABLED)
+
+            start_thread = threading.Thread(target=self.runAbsWithButtonControl)
+            start_thread.start()
+
+    def runAbsWithButtonControl(self):
+        try:
+            # 좌표 입력 필드에서 값을 가져옴
+            x_input = self.x_entry.get()
+            y_input = self.y_entry.get()
+            
+            if not x_input:
+                return  # 입력이 없는 경우 아무 작업도 수행하지 않음
+            elif not y_input:
+                return
+            
+            x_pos = int(x_input)
+            y_pos = int(y_input)
+
+            self.recipe.startAbs(x_pos, y_pos)
+            
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
+        
+        print("On startAbsButton")
+
+        # Recipe 작업이 완료될 때까지 대기
+        while self.recipe.isRunning():
+            time.sleep(0.1)  # 일시적으로 대기, 이 과정을 수정하여 적절한 대기 방법으로 변경할 수 있습니다.
+
+        # Recipe 작업이 끝나면 버튼 활성화
+        self.app.root.after(0, self.EnableButtons)
 
     def stopAbsButton(self):
-        if self.goAbsButton == True:
+        if self.recipe.isRunning():
             self.go_abs_button.config(state=tk.DISABLED)
             self.stop_button.config(state=tk.DISABLED)
             self.run_recipe_button.config(state=tk.DISABLED)
             self.stop_recipe_button.config(state=tk.DISABLED)
             self.exit_button.config(state=tk.DISABLED)
 
-            pass
+            self.recipe.stopAbs()
             print("On stopAbsButton")
 
-            self.go_abs_button.config(state=tk.NORMAL)
-            self.stop_button.config(state=tk.NORMAL)
-            self.run_recipe_button.config(state=tk.NORMAL)
-            self.stop_recipe_button.config(state=tk.NORMAL)
-            self.exit_button.config(state=tk.NORMAL)
+            while self.recipe.isRunning():
+                time.sleep(0.1)  # 일시적으로 대기, 적절한 대기 방법으로 변경 가능
+
+            self.EnableButtons()
 
     # startRecipe
     def startRecipeButton(self):
@@ -437,15 +460,7 @@ class Window:
             time.sleep(0.1)  # 일시적으로 대기, 이 과정을 수정하여 적절한 대기 방법으로 변경할 수 있습니다.
 
         # Recipe 작업이 끝나면 버튼 활성화
-        self.app.root.after(0, self.runRecipeEnableButtons)
-
-    def runRecipeEnableButtons(self):
-        self.go_abs_button.config(state=tk.NORMAL)
-        self.stop_button.config(state=tk.NORMAL)
-        self.run_scan_button.config(state=tk.NORMAL)
-        self.stop_scan_button.config(state=tk.NORMAL)
-        self.run_recipe_button.config(state=tk.NORMAL)
-        self.exit_button.config(state=tk.NORMAL)
+        self.app.root.after(0, self.EnableButtons)
 
     # stopRecipe
     def stopRecipeButton(self):
@@ -465,15 +480,16 @@ class Window:
             while self.recipe.isRunning():
                 time.sleep(0.1)  # 일시적으로 대기, 적절한 대기 방법으로 변경 가능
 
-            self.runRecipeEnableButtons()
+            self.EnableButtons()
 
-            self.go_abs_button.config(state=tk.NORMAL)
-            self.stop_button.config(state=tk.NORMAL)
-            self.run_scan_button.config(state=tk.NORMAL)
-            self.stop_scan_button.config(state=tk.NORMAL)
-            self.run_recipe_button.config(state=tk.NORMAL)
-            self.stop_recipe_button.config(state=tk.NORMAL)
-            self.exit_button.config(state=tk.NORMAL)
+    def EnableButtons(self):
+        self.go_abs_button.config(state=tk.NORMAL)
+        self.stop_button.config(state=tk.NORMAL)
+        self.run_scan_button.config(state=tk.NORMAL)
+        self.stop_scan_button.config(state=tk.NORMAL)
+        self.run_recipe_button.config(state=tk.NORMAL)
+        self.stop_recipe_button.config(state=tk.NORMAL)
+        self.exit_button.config(state=tk.NORMAL)
 
     def closeWindowButton(self):
         self.root.destroy()
