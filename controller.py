@@ -310,11 +310,11 @@ class Window:
         self.moving_empty_20 = tk.Label(self.moving_frame, height=1)
         self.moving_empty_20.grid(row=3, column=0)
         
-        self.go_abs_button = tk.Button(self.moving_frame, text="Go Absolute", width=12, font=('Arial', 11), command=self.startAbsButton)
-        self.go_abs_button.grid(row=4, column=0, columnspan=2)
+        self.go_abs_button = tk.Button(self.moving_frame, text="Go Absolute", width=26, font=('Arial', 11), command=self.startAbsButton)
+        self.go_abs_button.grid(row=4, column=0, columnspan=5)
         
-        self.stop_button = tk.Button(self.moving_frame, text="Stop", width=12, font=('Arial', 11), command=self.stopAbsButton)
-        self.stop_button.grid(row=4, column=3, columnspan=2)
+        # self.stop_button = tk.Button(self.moving_frame, text="Stop", width=12, font=('Arial', 11), command=self.stopAbsButton)
+        # self.stop_button.grid(row=4, column=3, columnspan=2)
 
         self.moving_empty_40 = self.setEmptyBox(self.moving_frame, 5, 0, height=3)
         
@@ -394,19 +394,27 @@ class Window:
             start_thread = threading.Thread(target=self.runAbsWithButtonControl)
             start_thread.start()
 
+
+    # FIXME: disable되는 버튼 실행 후 enable이 안 되는 문제
     def runAbsWithButtonControl(self):
         try:
             # 좌표 입력 필드에서 값을 가져옴
-            x_input = self.x_entry.get()
-            y_input = self.y_entry.get()
+            self.x_input = self.x_entry.get()
+            self.y_input = self.y_entry.get()
             
-            if not x_input:
+            if not self.x_input:
+                self.EnableButtons()
+                while self.recipe.isRunning():
+                    time.sleep(0.1)  # 일시적으로 대기, 적절한 대기 방법으로 변경 가능
                 return  # 입력이 없는 경우 아무 작업도 수행하지 않음
-            elif not y_input:
+            elif not self.y_input:
+                self.EnableButtons()
+                while self.recipe.isRunning():
+                    time.sleep(0.1)  # 일시적으로 대기, 적절한 대기 방법으로 변경 가능
                 return
             
-            x_pos = int(x_input)
-            y_pos = int(y_input)
+            x_pos = int(self.x_input)
+            y_pos = int(self.y_input)
 
             self.recipe.startAbs(x_pos, y_pos)
             
@@ -414,14 +422,13 @@ class Window:
             print(f"An error occurred: {str(e)}")
         
         print("On startAbsButton")
+        if self.recipe.isRunning():
+            while self.recipe.isRunning():
+                time.sleep(0.1)  # 일시적으로 대기, 이 과정을 수정하여 적절한 대기 방법으로 변경할 수 있습니다.
 
-        # Recipe 작업이 완료될 때까지 대기
-        while self.recipe.isRunning():
-            time.sleep(0.1)  # 일시적으로 대기, 이 과정을 수정하여 적절한 대기 방법으로 변경할 수 있습니다.
+            self.EnableButtons()
 
-        # Recipe 작업이 끝나면 버튼 활성화
-        self.app.root.after(0, self.EnableButtons)
-
+    # TODO: delete stop code
     def stopAbsButton(self):
         if self.recipe.isRunning():
             self.go_abs_button.config(state=tk.DISABLED)
@@ -482,6 +489,13 @@ class Window:
 
             self.EnableButtons()
 
+    # TODO: start and stop scanning
+    def startScanningButton(self):
+        pass
+
+    def stopScanningButton(self):
+        pass
+
     def EnableButtons(self):
         self.go_abs_button.config(state=tk.NORMAL)
         self.stop_button.config(state=tk.NORMAL)
@@ -499,3 +513,7 @@ class Window:
         csv_size_str = str(self.recipe.csv_size)
         formatted_text = f"{count_str} / {csv_size_str}"
         self.recipe_count_label.config(text=formatted_text, justify='center')
+
+    # TODO: scanning count
+    def updateScanningCountLabel(self):
+        pass
