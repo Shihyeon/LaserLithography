@@ -21,7 +21,7 @@ motor:
 laser:
   setup:
     # Port to which Arduino is connected.
-    port: COM4
+    port: COM7
     baudrate: 9600
     # Enter delay duration in seconds.
     delay_duration: 0.5
