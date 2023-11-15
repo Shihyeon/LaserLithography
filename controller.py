@@ -379,31 +379,32 @@ class Window:
     def setEmptyBox(self, frame, row, column, width=1, height=1):
         self.emptybox = tk.Label(frame, width=width, height=height)
         self.emptybox.grid(row=row, column=column)
-        
+    
+    # startAbs
     def startAbsButton(self):
         # Disable command (버튼 커멘드가 실행되는 동안 다른 버튼을 비활성화 상태로 설정)
         self.go_abs_button.config(state=tk.DISABLED)
         self.run_scan_button.config(state=tk.DISABLED)
-        self.stop_recipe_button.config(state=tk.DISABLED)
+        self.stop_scan_button.config(state=tk.DISABLED)
         self.run_recipe_button.config(state=tk.DISABLED)
         self.stop_recipe_button.config(state=tk.DISABLED)
         self.exit_button.config(state=tk.DISABLED)
 
-        self.runAbsWithButtonControl()
+        thread = threading.Thread(target=self.runAbsWithButtonControl)
+        thread.start()
 
-    # FIXME: disable되는 버튼 실행 후 enable이 안 되는 문제
     def runAbsWithButtonControl(self):
         try:
             # 좌표 입력 필드에서 값을 가져옴
-            self.x_input = self.x_entry.get()
-            self.y_input = self.y_entry.get()
+            x_input = self.x_entry.get()
+            y_input = self.y_entry.get()
             
-            if not self.x_input or not self.y_input:
+            if not x_input or not y_input:
                 self.EnableButtons()
                 return  # 입력이 없는 경우 아무 작업도 수행하지 않음
             
-            x_pos = int(self.x_input)
-            y_pos = int(self.y_input)
+            x_pos = int(x_input)
+            y_pos = int(y_input)
 
             self.recipe.startAbs(x_pos, y_pos)
             
@@ -411,24 +412,8 @@ class Window:
             print(f"An error occurred: {str(e)}")
         
         time.sleep(2)
-
+        self.recipe.stopRecipe()
         self.EnableButtons()
-
-    # TODO: delete stop code
-    def stopAbsButton(self):
-        if self.recipe.isRunning():
-            self.go_abs_button.config(state=tk.DISABLED)
-            self.run_recipe_button.config(state=tk.DISABLED)
-            self.stop_recipe_button.config(state=tk.DISABLED)
-            self.exit_button.config(state=tk.DISABLED)
-
-            self.recipe.stopAbs()
-            print("On stopAbsButton")
-
-            while self.recipe.isRunning():
-                time.sleep(0.1)  # 일시적으로 대기, 적절한 대기 방법으로 변경 가능
-
-            self.EnableButtons()
 
     # startRecipe
     def startRecipeButton(self):
