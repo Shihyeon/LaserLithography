@@ -312,9 +312,6 @@ class Window:
         
         self.go_abs_button = tk.Button(self.moving_frame, text="Go Absolute", width=26, font=('Arial', 11), command=self.startAbsButton)
         self.go_abs_button.grid(row=4, column=0, columnspan=5)
-        
-        # self.stop_button = tk.Button(self.moving_frame, text="Stop", width=12, font=('Arial', 11), command=self.stopAbsButton)
-        # self.stop_button.grid(row=4, column=3, columnspan=2)
 
         self.moving_empty_40 = self.setEmptyBox(self.moving_frame, 5, 0, height=3)
         
@@ -432,7 +429,6 @@ class Window:
     def stopAbsButton(self):
         if self.recipe.isRunning():
             self.go_abs_button.config(state=tk.DISABLED)
-            self.stop_button.config(state=tk.DISABLED)
             self.run_recipe_button.config(state=tk.DISABLED)
             self.stop_recipe_button.config(state=tk.DISABLED)
             self.exit_button.config(state=tk.DISABLED)
@@ -449,7 +445,6 @@ class Window:
     def startRecipeButton(self):
         if not self.recipe.isRunning():  # 작업이 실행 중이지 않은 경우에만 실행
             self.go_abs_button.config(state=tk.DISABLED)
-            self.stop_button.config(state=tk.DISABLED)
             self.run_scan_button.config(state=tk.DISABLED)
             self.stop_scan_button.config(state=tk.DISABLED)
             self.run_recipe_button.config(state=tk.DISABLED)
@@ -473,7 +468,6 @@ class Window:
     def stopRecipeButton(self):
         if self.recipe.isRunning():  # 작업이 실행 중인 경우에만 실행
             self.go_abs_button.config(state=tk.DISABLED)
-            self.stop_button.config(state=tk.DISABLED)
             self.run_scan_button.config(state=tk.DISABLED)
             self.stop_scan_button.config(state=tk.DISABLED)
             self.run_recipe_button.config(state=tk.DISABLED)
@@ -498,7 +492,6 @@ class Window:
 
     def EnableButtons(self):
         self.go_abs_button.config(state=tk.NORMAL)
-        self.stop_button.config(state=tk.NORMAL)
         self.run_scan_button.config(state=tk.NORMAL)
         self.stop_scan_button.config(state=tk.NORMAL)
         self.run_recipe_button.config(state=tk.NORMAL)
