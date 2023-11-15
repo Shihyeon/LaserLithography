@@ -3,7 +3,7 @@ import time
 from config import Config
 
 class Motor:
-    def __init__(self, port='COM3', baudrate=9600, checkRange=True):
+    def __init__(self, port='COM3', baudrate=9600, checkRange=False):
         
         configInstance = Config()
         config = configInstance.configuration
