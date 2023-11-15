@@ -77,7 +77,7 @@ class ErrorLogger:
         return logger
 
 class Motor:
-    def __init__(self, port='COM3', baudrate=9600, checkRange=False):
+    def __init__(self, port='COM3', baudrate=9600, checkRange=True):
         
         configInstance = Config()
         config = configInstance.configuration
@@ -85,6 +85,7 @@ class Motor:
         # Set port and baudrate value with config
         port = config['motor']['setup']['port']
         baudrate = config['motor']['setup']['baudrate']
+        check_range = config['motor']['setup']['check_range']
             
         try:
             self.ser = serial.Serial(port=port, baudrate=baudrate, stopbits=1)
@@ -126,7 +127,7 @@ class Motor:
         self.setRate(self.y, y_rate, y_s_rate)
         self.goAbs(self.init_x_pos, self.init_y_pos)
         
-        if checkRange:
+        if checkRange == check_range:
             self.goAbs(0, 0)
             self.goAbs(2000, 2000)
             self.goAbs(-2000, -2000)
