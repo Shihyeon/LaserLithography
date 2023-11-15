@@ -12,7 +12,7 @@ from datetime import datetime
 class Config():
     def __init__(self):
         try:
-            with open(file="src\\config.yml", mode="r") as config_file:
+            with open(file="config.yml", mode="r") as config_file:
                 self.configuration = yaml.safe_load(config_file)
         except FileNotFoundError:
             print("File not found or path incorrect.")
@@ -39,7 +39,7 @@ class CSVDataReader:
         pass
 
 class Logger:
-    def __init__(self, log_dir="src\\log"):
+    def __init__(self, log_dir="log"):
         self.log_dir = log_dir
         self.log_file = self.generateLogFile()
         self.configureLogger()
@@ -58,7 +58,7 @@ class Logger:
         return logger
 
 class ErrorLogger:
-    def __init__(self, log_dir="src\\log"):
+    def __init__(self, log_dir="log"):
         self.log_dir = log_dir
         self.error_log_file = self.generateErrorLogFile()
         self.configureErrorLogger()
@@ -217,7 +217,7 @@ class Recipe():
         config = configInstance.configuration
         self.delayDuration = config['laser']['setup']['delay_duration']
         
-        self.csv_reader = CSVDataReader(path="src\\resources\\filtered_pixel_rgb_values.csv")
+        self.csv_reader = CSVDataReader(path="resources\\filtered_pixel_rgb_values.csv")
         self.csv_reader.read_csv()
 
     def stopRecipe(self):
