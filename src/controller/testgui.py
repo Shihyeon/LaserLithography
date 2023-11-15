@@ -128,6 +128,7 @@ class Window:
             self.stop_recipe_button.config(state=tk.NORMAL)
             self.exit_button.config(state=tk.NORMAL)
 
+    # startRecipe
     def startRecipeButton(self):
         if not self.recipe.isRunning():  # 작업이 실행 중이지 않은 경우에만 실행
             self.go_abs_button.config(state=tk.DISABLED)
@@ -135,8 +136,8 @@ class Window:
             self.run_recipe_button.config(state=tk.DISABLED)
             self.exit_button.config(state=tk.DISABLED)
 
-            thread = threading.Thread(target=self.runRecipeWithButtonControl)
-            thread.start()
+            start_thread = threading.Thread(target=self.runRecipeWithButtonControl)
+            start_thread.start()
 
     def runRecipeWithButtonControl(self):
         self.recipe.startRecipe()
@@ -155,6 +156,7 @@ class Window:
         self.run_recipe_button.config(state=tk.NORMAL)
         self.exit_button.config(state=tk.NORMAL)
 
+    # stopRecipe
     def stopRecipeButton(self):
         if self.recipe.isRunning():  # 작업이 실행 중인 경우에만 실행
             self.go_abs_button.config(state=tk.DISABLED)
