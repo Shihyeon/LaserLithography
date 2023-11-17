@@ -475,6 +475,7 @@ class Window:
     def closeWindowButton(self):
         self.root.destroy()
 
+    # TODO: add percentage
     def updateCountLabel(self):
         count_str = str(self.recipe.count).zfill(len(str(self.recipe.csv_size)))
         csv_size_str = str(self.recipe.csv_size)
