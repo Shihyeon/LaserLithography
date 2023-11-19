@@ -83,8 +83,8 @@ class Motor:
         config = configInstance.configuration
 
         # Set port and baudrate value with config
-        port = config['motor']['setup']['port']
-        baudrate = config['motor']['setup']['baudrate']
+        port = str(config['motor']['setup']['port'])
+        baudrate = int(config['motor']['setup']['baudrate'])
         check_range = config['motor']['setup']['check_range']
             
         try:
@@ -102,20 +102,20 @@ class Motor:
             raise Exception("CCW Soft Limit is enabled.")
                         
         # Set speed value with config
-        x_l_speed = config['motor']['x_axis']['l_speed']
-        x_f_speed = config['motor']['x_axis']['f_speed']
-        y_l_speed = config['motor']['y_axis']['l_speed']
-        y_f_speed = config['motor']['y_axis']['f_speed']
+        x_l_speed = int(config['motor']['x_axis']['l_speed'])
+        x_f_speed = int(config['motor']['x_axis']['f_speed'])
+        y_l_speed = int(config['motor']['y_axis']['l_speed'])
+        y_f_speed = int(config['motor']['y_axis']['f_speed'])
         
         # Set rate value with config
-        x_rate = config['motor']['x_axis']['rate']
-        x_s_rate = config['motor']['x_axis']['s_rate']
-        y_rate = config['motor']['y_axis']['rate']
-        y_s_rate = config['motor']['y_axis']['s_rate']
+        x_rate = int(config['motor']['x_axis']['rate'])
+        x_s_rate = int(config['motor']['x_axis']['s_rate'])
+        y_rate = int(config['motor']['y_axis']['rate'])
+        y_s_rate = int(config['motor']['y_axis']['s_rate'])
         
         # Set initial position value with config
-        self.init_x_pos = config['motor']['initial_position']['x']
-        self.init_y_pos = config['motor']['initial_position']['y']
+        self.init_x_pos = int(config['motor']['initial_position']['x'])
+        self.init_y_pos = int(config['motor']['initial_position']['y'])
         
         # axis setting
         self.x = "1"
