@@ -216,7 +216,7 @@ class Recipe():
         self.logger = self.logInstance.getLogger()
         configInstance = Config()
         config = configInstance.configuration
-        self.delayDuration = config['laser']['setup']['delay_duration']
+        self.delayDuration = float(config['laser']['setup']['delay_duration'])
         
         self.csv_reader = CSVDataReader(path="resources\\filtered_pixel_rgb_values.csv")
         self.csv_reader.read_csv()
