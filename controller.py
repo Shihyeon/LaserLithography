@@ -182,8 +182,8 @@ class Laser:
         configInstance = Config()
         config = configInstance.configuration
 
-        port = config['laser']['setup']['port']
-        baudrate = config['laser']['setup']['baudrate']
+        port = str(config['laser']['setup']['port'])
+        baudrate = int(config['laser']['setup']['baudrate'])
 
         try:
             self.arduino = serial.Serial(port=port, baudrate=baudrate)
