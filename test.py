@@ -207,13 +207,15 @@ class Laser:
         self.arduino.close()
 
 class ImageConverter:
-    def __init__(self, image_path="resources\\input_image.jpg"):
+    def __init__(self, app, image_path="resources\\input_image.jpg"):
         self.image_path = image_path
         self.csv_filtered = "resources\\filtered_values.csv"
 
         self.count = 0
+        self.app = app
         self.stop_event = threading.Event()
         self.is_running = False  # 작업 실행 여부를 나타내는 플래그
+        self.csv_size = 0
         # self.app = app
 
         configInstance = Config()
@@ -222,6 +224,19 @@ class ImageConverter:
         self.x_size = int(config['image']['setup']['x_size'])
         self.y_size = int(config['image']['setup']['y_size'])
         self.intensity = float(config['image']['setup']['intensity'])
+
+        img = Image.open(self.image_path)
+        img.thumbnail((self.x_size, self.y_size))
+        transform = tr.Compose([tr.ToTensor()])
+        image_tensor = transform(img)
+        _, height, width = image_tensor.shape
+
+        with open(self.csv_filtered, mode='w', newline='') as filtered_csv_file:
+            writer = csv.writer(filtered_csv_file)
+            writer.writerow(["X", "Y"])
+
+            self.csv_size = height * width
+            self.count = 0
 
     def processAndFilterImage(self):
         img = Image.open(self.image_path)
@@ -246,6 +261,7 @@ class ImageConverter:
                     if result == 1:
                         writer.writerow([col, row])
                     self.count += 1
+                    self.updateScanningCountLabel()
 
         self.stop_event.set()
         self.is_running = False
@@ -342,7 +358,7 @@ class Window:
     def __init__(self, root):
         self.root = root
         self.recipe = Recipe(self)
-        self.converter = ImageConverter()
+        self.converter = ImageConverter(self)
         # self.app = self
 
         self.LargeFrame = tk.Frame(root)
@@ -393,11 +409,11 @@ class Window:
         self.recipe_empty_10 = tk.Label(self.recipe_frame, height=1)
         self.recipe_empty_10.grid(row=1, column=0)
 
-        self.scan_count_label = tk.Label(self.recipe_frame, text="- / -", font=('Arial', 12), justify='right')
-        self.scan_count_label.grid(row=2, column=0, columnspan=2)
+        self.scan_count_label = tk.Label(self.recipe_frame, text="- / -", font=('Arial', 12))
+        self.scan_count_label.grid(row=2, column=0, columnspan=4)
 
-        self.scan_count_per_label = tk.Label(self.recipe_frame, text="0%", font=('Arial', 12), justify='left')
-        self.scan_count_per_label.grid(row=2, column=3, columnspan=2)
+        self.scan_count_per_label = tk.Label(self.recipe_frame, text="0%", font=('Arial', 12))
+        self.scan_count_per_label.grid(row=2, column=4, columnspan=1)
 
         self.run_scan_button = tk.Button(self.recipe_frame, text="Run Scanning", width=12, font=('Arial', 11), command=self.startScanningButton)
         self.run_scan_button.grid(row=3, column=0, columnspan=2)
@@ -412,10 +428,10 @@ class Window:
         self.recipe_empty_40.grid(row=4, column=0)
 
         self.recipe_count_label = tk.Label(self.recipe_frame, text="- / -", font=('Arial', 12))
-        self.recipe_count_label.grid(row=5, column=0, columnspan=2)
+        self.recipe_count_label.grid(row=5, column=0, columnspan=4)
 
         self.recipe_count_per_label = tk.Label(self.recipe_frame, text="0%", font=('Arial', 12))
-        self.recipe_count_per_label.grid(row=5, column=3, columnspan=2)
+        self.recipe_count_per_label.grid(row=5, column=4, columnspan=1)
 
         self.run_recipe_button = tk.Button(self.recipe_frame, text="Run Recipe", width=12, font=('Arial', 11), command=self.startRecipeButton)
         self.run_recipe_button.grid(row=6, column=0, columnspan=2)
@@ -553,11 +569,6 @@ class Window:
             start_thread = threading.Thread(target=self.runScanWithButtonControl)
             start_thread.start()
 
-            start_thread.join()
-
-            if self.converter.count+1 == self.converter.csv_size:
-                self.stopScanningButton()
-
     def runScanWithButtonControl(self):
         self.converter.startScan()
         print("On startScanningButton")
@@ -568,8 +579,6 @@ class Window:
 
         # Recipe 작업이 끝나면 버튼 활성화
         self.converter.enableButtons() # self.root.after(0, self.enableButtons)
-
-        self.stopScanningButton()
 
     def stopScanningButton(self):
         if self.converter.isRunning():  # 작업이 실행 중인 경우에만 실행
@@ -587,7 +596,7 @@ class Window:
             while self.converter.isRunning():
                 time.sleep(0.1)  # 일시적으로 대기, 적절한 대기 방법으로 변경 가능
 
-            self.enableButtons()
+            self.converter.enableButtons()
 
     def enableButtons(self):
         self.go_abs_button.config(state=tk.NORMAL)
@@ -628,3 +637,4 @@ if __name__ == "__main__":
     pass
     # image_processor = ImageConverter()
     # image_processor.processAndFilterImage()
+    # print(image_processor.csv_size)
