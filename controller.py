@@ -5,6 +5,9 @@ import time
 import os
 import tkinter as tk
 import threading
+import torch
+import torchvision.transforms as tr
+from PIL import Image
 from loguru import logger
 from datetime import datetime
 
