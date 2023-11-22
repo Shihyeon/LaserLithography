@@ -8,7 +8,7 @@ class ImageConverter:
         self.image_path = image_path
         self.output_csv = output_csv
 
-    def process_image(self):
+    def processImage(self):
         img = Image.open(self.image_path)
         img.thumbnail((1000, 1000))
         transform = tr.Compose([tr.ToTensor()])
@@ -31,7 +31,7 @@ class ImageConverter:
                     else:
                         writer.writerow([row, col, red_value.item(), green_value.item(), blue_value.item(), 0])
 
-    def filter_result(self):
+    def filterResult(self):
         csv_rgbdata = 'pixel_rgb_values.csv'
         csv_filtered = 'filtered_pixel_rgb_values.csv'
 
