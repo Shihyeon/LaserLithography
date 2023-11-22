@@ -4,7 +4,7 @@ import torchvision.transforms as tr
 import csv
 
 class ImageConverter:
-    def __init__(self, image_path, output_csv):
+    def __init__(self, image_path="resources\\input_image.jpg", output_csv="resources\\filtered_pixel_rgb_values.csv"):
         self.image_path = image_path
         self.output_csv = output_csv
 
