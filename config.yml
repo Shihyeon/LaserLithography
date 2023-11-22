@@ -1,4 +1,10 @@
 
+image:
+  setup:
+    x_size: 1000
+    y_size: 1000
+    intensity: 0.35
+
 motor:
   setup:
     # Port to which Motor controller is connected.
