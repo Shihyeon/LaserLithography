@@ -290,7 +290,7 @@ class Recipe():
         self.csv_size = 0
 
         self.motor = Motor()
-        # self.laser = Laser()
+        self.laser = Laser()
         self.logInstance = Logger()
         self.logger = self.logInstance.getLogger()
         configInstance = Config()
@@ -322,9 +322,9 @@ class Recipe():
                 self.target_x = self.motor.init_x_pos + self.csv_reader.X[self.count]
                 self.target_y = self.motor.init_y_pos + self.csv_reader.Y[self.count]
                 self.motor.goAbs(self.target_x, self.target_y)
-                # self.laser.onLaser()
+                self.laser.onLaser()
                 time.sleep(self.delayDuration)
-                # self.laser.offLaser()
+                self.laser.offLaser()
                 self.updateCountLabel()
                 self.logger.trace(f"Perform lithography at absolute position ({self.target_x}, {self.target_y}).")
                 
