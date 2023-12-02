@@ -207,48 +207,79 @@ class Laser:
         self.arduino.close()
 
 class ImageConverter:
-    def __init__(self, image_path="resources\\input_image.jpg", output_csv="resources\\filtered_pixel_rgb_values.csv"):
+    def __init__(self, app, image_path="resources\\input_image.jpg"):
         self.image_path = image_path
-        self.output_csv = output_csv
+        self.csv_filtered = "resources\\filtered_values.csv"
 
-    def processImage(self):
+        self.count = 0
+        self.app = app
+        self.stop_event = threading.Event()
+        self.is_running = False  # 작업 실행 여부를 나타내는 플래그
+        self.csv_size = 0
+        # self.app = app
+
+        configInstance = Config()
+        config = configInstance.configuration
+
+        self.x_size = int(config['image']['setup']['x_size'])
+        self.y_size = int(config['image']['setup']['y_size'])
+        self.intensity = float(config['image']['setup']['intensity'])
+
         img = Image.open(self.image_path)
-        img.thumbnail((1000, 1000))
+        img.thumbnail((self.x_size, self.y_size))
         transform = tr.Compose([tr.ToTensor()])
         image_tensor = transform(img)
         _, height, width = image_tensor.shape
 
-        csv_rgbdata = 'pixel_rgb_values.csv'
+        with open(self.csv_filtered, mode='w', newline='') as filtered_csv_file:
+            writer = csv.writer(filtered_csv_file)
+            writer.writerow(["X", "Y"])
 
-        with open(csv_rgbdata, mode='w', newline='') as csv_file:
-            writer = csv.writer(csv_file)
-            writer.writerow(["Row", "Column", "Red", "Green", "Blue", "Result"])  # 헤더 작성
+            self.csv_size = height * width
+            self.count = 0
+
+    def processAndFilterImage(self):
+        img = Image.open(self.image_path)
+        img.thumbnail((self.x_size, self.y_size))
+        transform = tr.Compose([tr.ToTensor()])
+        image_tensor = transform(img)
+        _, height, width = image_tensor.shape
+
+        with open(self.csv_filtered, mode='w', newline='') as filtered_csv_file:
+            writer = csv.writer(filtered_csv_file)
+            writer.writerow(["X", "Y"])
+
+            self.csv_size = height * width
+            self.count = 0
 
             for row in range(height):
                 for col in range(width):
-                    red_value = image_tensor[0, row, col]
-                    green_value = image_tensor[1, row, col]
-                    blue_value = image_tensor[2, row, col]
-                    if red_value <= 0.35 or green_value <= 0.35 or blue_value <= 0.35:
-                        writer.writerow([row, col, red_value.item(), green_value.item(), blue_value.item(), 1])
-                    else:
-                        writer.writerow([row, col, red_value.item(), green_value.item(), blue_value.item(), 0])
+                    red_value = image_tensor[0, row, col].item()
+                    green_value = image_tensor[1, row, col].item()
+                    blue_value = image_tensor[2, row, col].item()
+                    result = 1 if red_value <= self.intensity or green_value <= self.intensity or blue_value <= self.intensity else 0
+                    if result == 1:
+                        writer.writerow([col, row])
+                    self.count += 1
+                    self.updateScanningCountLabel()
 
-    def filterResult(self):
-        csv_rgbdata = 'pixel_rgb_values.csv'
-        csv_filtered = 'filtered_pixel_rgb_values.csv'
+        self.stop_event.set()
+        self.is_running = False
 
-        with open(csv_filtered, mode='w', newline='') as filtered_csv_file:
-            writer = csv.writer(filtered_csv_file)
-            writer.writerow(["X", "Y"])  # 헤더 작성
+    def updateScanningCountLabel(self):
+        self.app.root.after(0, self.app.updateScanningCountLabel)  # GUI 업데이트 요청
 
-            with open(csv_rgbdata, mode='r') as csv_file:
-                reader = csv.reader(csv_file)
-                next(reader)  # 헤더를 건너뛰기
+    def stopScan(self):
+        self.stop_event.set()
+        self.is_running = False  # 작업이 중지됨을 표시
 
-                for row in reader:
-                    if int(row[5]) == 1:
-                        writer.writerow([row[1], row[0]])
+    def startScan(self):
+        self.stop_event.clear()
+        threading.Thread(target=self.processAndFilterImage).start()  # 새 스레드에서 goRecipe 실행
+        self.is_running = True  # 작업이 시작됨을 표시
+
+    def isRunning(self):
+        return self.is_running
 
 class Recipe():
     def __init__(self, app):
@@ -256,6 +287,7 @@ class Recipe():
         self.stop_event = threading.Event()
         self.is_running = False  # 작업 실행 여부를 나타내는 플래그
         self.app = app
+        self.csv_size = 0
 
         self.motor = Motor()
         self.laser = Laser()
@@ -267,6 +299,7 @@ class Recipe():
         
         self.csv_reader = CSVDataReader(path="resources\\filtered_pixel_rgb_values.csv")
         self.csv_reader.read_csv()
+        self.csv_size = len(self.csv_reader.X)
 
     def stopRecipe(self):
         self.stop_event.set()
@@ -279,7 +312,6 @@ class Recipe():
 
     def isRunning(self):
         return self.is_running
-
         
     def goRecipe(self):
         self.csv_size = len(self.csv_reader.X)
@@ -295,6 +327,7 @@ class Recipe():
                 self.laser.offLaser()
                 self.updateCountLabel()
                 self.logger.trace(f"Perform lithography at absolute position ({self.target_x}, {self.target_y}).")
+                
         except Exception as e:
             self.logger.error(f"An error occurred in absolute position ({self.target_x}, {self.target_y}).")
             raise Exception(f"An error occurred in absolute position ({self.target_x}, {self.target_y}).")
@@ -316,11 +349,17 @@ class Recipe():
             self.is_running = False  # 작업이 중지됨을 표시
             print("Stopping Abs")
 
+    def enableButtons(self):
+        # 작업이 끝난 후에 버튼을 활성화하는 코드 추가
+        if self.app:
+            self.app.enableButtons()
+
 class Window:
     def __init__(self, root):
         self.root = root
         self.recipe = Recipe(self)
-        self.app = self
+        self.converter = ImageConverter(self)
+        # self.app = self
 
         self.LargeFrame = tk.Frame(root)
         self.LargeFrame.pack(anchor="center")
@@ -371,22 +410,28 @@ class Window:
         self.recipe_empty_10.grid(row=1, column=0)
 
         self.scan_count_label = tk.Label(self.recipe_frame, text="- / -", font=('Arial', 12))
-        self.scan_count_label.grid(row=2, column=0, columnspan=5)
+        self.scan_count_label.grid(row=2, column=0, columnspan=4)
 
-        self.run_scan_button = tk.Button(self.recipe_frame, text="Run Scanning", width=12, font=('Arial', 11))
+        self.scan_count_per_label = tk.Label(self.recipe_frame, text="0%", font=('Arial', 12))
+        self.scan_count_per_label.grid(row=2, column=4, columnspan=1)
+
+        self.run_scan_button = tk.Button(self.recipe_frame, text="Run Scanning", width=12, font=('Arial', 11), command=self.startScanningButton)
         self.run_scan_button.grid(row=3, column=0, columnspan=2)
 
         self.recipe_empty_32 = tk.Label(self.recipe_frame, width=2)
         self.recipe_empty_32.grid(row=3, column=2)
 
-        self.stop_scan_button = tk.Button(self.recipe_frame, text="Stop Scanning", width=12, font=('Arial', 11))
+        self.stop_scan_button = tk.Button(self.recipe_frame, text="Stop Scanning", width=12, font=('Arial', 11), command=self.stopScanningButton)
         self.stop_scan_button.grid(row=3, column=3, columnspan=2)
 
         self.recipe_empty_40 = tk.Label(self.recipe_frame, height=1)
         self.recipe_empty_40.grid(row=4, column=0)
 
         self.recipe_count_label = tk.Label(self.recipe_frame, text="- / -", font=('Arial', 12))
-        self.recipe_count_label.grid(row=5, column=0, columnspan=5)
+        self.recipe_count_label.grid(row=5, column=0, columnspan=4)
+
+        self.recipe_count_per_label = tk.Label(self.recipe_frame, text="0%", font=('Arial', 12))
+        self.recipe_count_per_label.grid(row=5, column=4, columnspan=1)
 
         self.run_recipe_button = tk.Button(self.recipe_frame, text="Run Recipe", width=12, font=('Arial', 11), command=self.startRecipeButton)
         self.run_recipe_button.grid(row=6, column=0, columnspan=2)
@@ -447,7 +492,7 @@ class Window:
             y_input = self.y_entry.get()
             
             if not x_input or not y_input:
-                self.EnableButtons()
+                self.enableButtons()
                 return  # 입력이 없는 경우 아무 작업도 수행하지 않음
             
             x_pos = int(x_input)
@@ -460,7 +505,7 @@ class Window:
         
         time.sleep(2)
         self.recipe.stopRecipe()
-        self.EnableButtons()
+        self.enableButtons()
 
     # startRecipe
     def startRecipeButton(self):
@@ -483,7 +528,15 @@ class Window:
             time.sleep(0.1)  # 일시적으로 대기, 이 과정을 수정하여 적절한 대기 방법으로 변경할 수 있습니다.
 
         # Recipe 작업이 끝나면 버튼 활성화
-        self.app.root.after(0, self.EnableButtons)
+        self.recipe.enableButtons() # self.root.after(0, self.enableButtons)
+
+        if self.recipe.count+1 == self.recipe.csv_size:
+            self.stopRecipeButton()
+            self.recipe.enableButtons()
+            time.sleep(0.1)
+        else:
+            while self.recipe.isRunning():
+                time.sleep(0.1)
 
     # stopRecipe
     def stopRecipeButton(self):
@@ -502,16 +555,50 @@ class Window:
             while self.recipe.isRunning():
                 time.sleep(0.1)  # 일시적으로 대기, 적절한 대기 방법으로 변경 가능
 
-            self.EnableButtons()
+            self.enableButtons()
 
     # TODO: start and stop scanning
     def startScanningButton(self):
-        pass
+        if not self.converter.isRunning():  # 작업이 실행 중이지 않은 경우에만 실행
+            self.go_abs_button.config(state=tk.DISABLED)
+            self.run_scan_button.config(state=tk.DISABLED)
+            self.run_recipe_button.config(state=tk.DISABLED)
+            self.stop_recipe_button.config(state=tk.DISABLED)
+            self.exit_button.config(state=tk.DISABLED)
+
+            start_thread = threading.Thread(target=self.runScanWithButtonControl)
+            start_thread.start()
+
+    def runScanWithButtonControl(self):
+        self.converter.startScan()
+        print("On startScanningButton")
+
+        # Recipe 작업이 완료될 때까지 대기
+        while self.converter.isRunning():
+            time.sleep(0.1)  # 일시적으로 대기, 이 과정을 수정하여 적절한 대기 방법으로 변경할 수 있습니다.
+
+        # Recipe 작업이 끝나면 버튼 활성화
+        self.converter.enableButtons() # self.root.after(0, self.enableButtons)
 
     def stopScanningButton(self):
-        pass
+        if self.converter.isRunning():  # 작업이 실행 중인 경우에만 실행
+            self.go_abs_button.config(state=tk.DISABLED)
+            self.run_scan_button.config(state=tk.DISABLED)
+            self.stop_scan_button.config(state=tk.DISABLED)
+            self.run_recipe_button.config(state=tk.DISABLED)
+            self.stop_recipe_button.config(state=tk.DISABLED)
+            self.exit_button.config(state=tk.DISABLED)
 
-    def EnableButtons(self):
+            self.converter.startScan()
+            print("On stopScanningButton")
+
+            # Recipe 작업이 완료될 때까지 대기
+            while self.converter.isRunning():
+                time.sleep(0.1)  # 일시적으로 대기, 적절한 대기 방법으로 변경 가능
+
+            self.converter.enableButtons()
+
+    def enableButtons(self):
         self.go_abs_button.config(state=tk.NORMAL)
         self.run_scan_button.config(state=tk.NORMAL)
         self.stop_scan_button.config(state=tk.NORMAL)
@@ -522,13 +609,32 @@ class Window:
     def closeWindowButton(self):
         self.root.destroy()
 
-    # TODO: add percentage
     def updateCountLabel(self):
-        count_str = str(self.recipe.count).zfill(len(str(self.recipe.csv_size)))
+        count_str = str(self.recipe.count+1).zfill(len(str(self.recipe.csv_size)))
         csv_size_str = str(self.recipe.csv_size)
         formatted_text = f"{count_str} / {csv_size_str}"
+        count_per_str = str(int(((self.recipe.count+1)/self.recipe.csv_size)*100))
+        formatted_per_text = f"{count_per_str}%"
+        
         self.recipe_count_label.config(text=formatted_text, justify='center')
+        self.recipe_count_per_label.config(text=formatted_per_text, justify='center')
 
     # TODO: scanning count
     def updateScanningCountLabel(self):
-        pass
+        count_str = str(self.converter.count+1).zfill(len(str(self.converter.csv_size)))
+        csv_size_str = str(self.converter.csv_size)
+        formatted_text = f"{count_str} / {csv_size_str}"
+        count_per_str = str(int(((self.converter.count+1)/self.converter.csv_size)*100))
+        formatted_per_text = f"{count_per_str}%"
+        
+        self.scan_count_label.config(text=formatted_text, justify='center')
+        self.scan_count_per_label.config(text=formatted_per_text, justify='center')
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = Window(root)
+    root.mainloop()
+    pass
+    # image_processor = ImageConverter()
+    # image_processor.processAndFilterImage()
+    # print(image_processor.csv_size)
