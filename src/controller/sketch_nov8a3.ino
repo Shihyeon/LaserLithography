@@ -3,7 +3,7 @@ int brightness = 0;
 
 void setup() {
   pinMode(Pin, OUTPUT);
-  analogWrite(ledPin, brightness);  // initial brightness
+  analogWrite(Pin, brightness);  // initial brightness
   Serial.begin(9600);
 }
 

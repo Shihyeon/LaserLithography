@@ -1,6 +1,5 @@
 import serial
 import time
-from config import Config
 
 class Laser:
     def __init__(self, port='COM4', baudrate=9600):
@@ -14,9 +13,10 @@ class Laser:
     
     def setLaserBrightness(self, brightness):
         # 보낼 값을 0에서 255 사이로 제한
-        brightness = min(max(brightness, 0), 255)
-        self.arduino.write(str(brightness).encode())
-        print(f"Brightness set to: {brightness}")
+        # brightness = min(max(brightness, 0), 255)
+        self.brightness = brightness
+        self.arduino.write(str(self.brightness).encode())
+        print(f"Brightness set to: {self.brightness}")
 
     def close(self):
         self.arduino.close()
@@ -25,8 +25,10 @@ if __name__ == "__main__":
     laser = Laser()
 
     # LED를 켜고 끄는 예시
-    laser.setLaserBrightness(255)
-    time.sleep(10)  # LED를 켜두고 2초 대기
+    laser.setLaserBrightness(0)
+    time.sleep(2)  # LED를 켜두고 2초 대기 
+    laser.setLaserBrightness(100)
+    time.sleep(2) 
     laser.setLaserBrightness(0)
 
     laser.close()
