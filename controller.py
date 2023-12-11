@@ -195,13 +195,17 @@ class Laser:
         
         time.sleep(2)
 
-    def onLaser(self):
-        self.arduino.write(b'1')
-        print("Laser ON")
-
-    def offLaser(self):
-        self.arduino.write(b'0')
-        print("Laser OFF")
+    def setLaserBrightness(self, brightness):
+        # 보낼 값을 0에서 255 사이로 제한
+        if brightness < 0:
+            self.brightness = 0
+        elif brightness > 255:
+            self.brightness = 255
+        else:
+            self.brightness = brightness
+        
+        self.arduino.write(str(self.brightness).encode())
+        print(f"Brightness set to: {self.brightness}")
 
     def close(self):
         self.arduino.close()
