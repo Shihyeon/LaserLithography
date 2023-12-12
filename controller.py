@@ -195,13 +195,17 @@ class Laser:
         
         time.sleep(2)
 
-    def onLaser(self):
-        self.arduino.write(b'1')
-        print("Laser ON")
-
-    def offLaser(self):
-        self.arduino.write(b'0')
-        print("Laser OFF")
+    def setLaserBrightness(self, brightness):
+        # 보낼 값을 0에서 255 사이로 제한
+        if brightness < 0:
+            self.brightness = 0
+        elif brightness > 255:
+            self.brightness = 255
+        else:
+            self.brightness = brightness
+        
+        self.arduino.write(str(self.brightness).encode())
+        print(f"Brightness set to: {self.brightness}")
 
     def close(self):
         self.arduino.close()
@@ -321,7 +325,7 @@ class Recipe():
                     break
                 self.target_x = self.motor.init_x_pos + self.csv_reader.X[self.count]
                 self.target_y = self.motor.init_y_pos + self.csv_reader.Y[self.count]
-                self.motor.goAbs(self.target_x, self.target_y)
+                self.motor.goAbs(self.target_x * 20, self.target_y * 20)  # scale factor = 20
                 self.laser.onLaser()
                 time.sleep(self.delayDuration)
                 self.laser.offLaser()
@@ -339,7 +343,7 @@ class Recipe():
 
     def startAbs(self, x, y):
         if not self.isRunning():  # 작업이 실행 중이지 않은 경우에만 실행
-            self.motor.goAbs(x, y)
+            self.motor.goAbs(x * 20, y * 20)  # scale factor = 20
             self.is_running = True  # 작업이 시작됨을 표시
             print("Starting Abs")
 
