@@ -1,6 +1,7 @@
 
 image:
   setup:
+    # Maximum image size is 100*100.
     x_size: 100
     y_size: 100
     intensity: 0.35
@@ -10,6 +11,8 @@ motor:
     # Port to which Motor controller is connected.
     port: COM3
     baudrate: 9600
+    # Check (-2000, -2000) to (2000, 2000). 
+    # Boolean: True or False.
     check_range: False
   x_axis:
     l_speed: 400
