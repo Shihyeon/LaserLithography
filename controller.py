@@ -195,17 +195,25 @@ class Laser:
         
         time.sleep(2)
 
-    def setLaserBrightness(self, brightness):
-        # 보낼 값을 0에서 255 사이로 제한
-        if brightness < 0:
-            self.brightness = 0
-        elif brightness > 255:
-            self.brightness = 255
-        else:
-            self.brightness = brightness
+    # def setLaserBrightness(self, brightness):
+    #     # 보낼 값을 0에서 255 사이로 제한
+    #     if brightness < 0:
+    #         self.brightness = 0
+    #     elif brightness > 255:
+    #         self.brightness = 255
+    #     else:
+    #         self.brightness = brightness
         
-        self.arduino.write(str(self.brightness).encode())
-        print(f"Brightness set to: {self.brightness}")
+    #     self.arduino.write(str(self.brightness).encode())
+    #     print(f"Brightness set to: {self.brightness}")
+
+    def onLaser(self):
+        self.arduino.write(b'1')
+        print("Laser ON")
+
+    def offLaser(self):
+        self.arduino.write(b'0')
+        print("Laser OFF")
 
     def close(self):
         self.arduino.close()
@@ -228,19 +236,6 @@ class ImageConverter:
         self.x_size = int(config['image']['setup']['x_size'])
         self.y_size = int(config['image']['setup']['y_size'])
         self.intensity = float(config['image']['setup']['intensity'])
-
-        img = Image.open(self.image_path)
-        img.thumbnail((self.x_size, self.y_size))
-        transform = tr.Compose([tr.ToTensor()])
-        image_tensor = transform(img)
-        _, height, width = image_tensor.shape
-
-        with open(self.csv_filtered, mode='w', newline='') as filtered_csv_file:
-            writer = csv.writer(filtered_csv_file)
-            writer.writerow(["X", "Y"])
-
-            self.csv_size = height * width
-            self.count = 0
 
     def processAndFilterImage(self):
         img = Image.open(self.image_path)
@@ -323,9 +318,9 @@ class Recipe():
             for self.count in range(self.csv_size):
                 if self.stop_event.is_set():
                     break
-                self.target_x = self.motor.init_x_pos + self.csv_reader.X[self.count]
-                self.target_y = self.motor.init_y_pos + self.csv_reader.Y[self.count]
-                self.motor.goAbs(self.target_x * 20, self.target_y * 20)  # scale factor = 20
+                self.target_x = self.motor.init_x_pos + (self.csv_reader.X[self.count] * 20)
+                self.target_y = self.motor.init_y_pos + (self.csv_reader.Y[self.count] * 20)
+                self.motor.goAbs(self.target_x, self.target_y)  # scale factor = 20
                 self.laser.onLaser()
                 time.sleep(self.delayDuration)
                 self.laser.offLaser()
@@ -561,7 +556,6 @@ class Window:
 
             self.enableButtons()
 
-    # TODO: start and stop scanning
     def startScanningButton(self):
         if not self.converter.isRunning():  # 작업이 실행 중이지 않은 경우에만 실행
             self.go_abs_button.config(state=tk.DISABLED)
@@ -623,7 +617,6 @@ class Window:
         self.recipe_count_label.config(text=formatted_text, justify='center')
         self.recipe_count_per_label.config(text=formatted_per_text, justify='center')
 
-    # TODO: scanning count
     def updateScanningCountLabel(self):
         count_str = str(self.converter.count+1).zfill(len(str(self.converter.csv_size)))
         csv_size_str = str(self.converter.csv_size)

@@ -1,8 +1,8 @@
 
 image:
   setup:
-    x_size: 1000
-    y_size: 1000
+    x_size: 100
+    y_size: 100
     intensity: 0.35
 
 motor:
