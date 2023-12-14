@@ -168,6 +168,10 @@ class Motor:
         self.writeCommand(f"axi{axis}:R{axis} {Rate}")
         # set S_Rate
         self.writeCommand(f"axi{axis}:S{axis} {sRate}")
+
+    def requestPos(self, axis):
+        self.writeCommand(f"axi{axis}:PULSA")
+        return f"axi{axis}:PULSA"
     
     def waitForStop(self):
         while True:
@@ -379,24 +383,29 @@ class Window:
         self.moving_empty_10 = tk.Label(self.moving_frame, height=1)
         self.moving_empty_10.grid(row=1, column=0)
         
+        self.posi_x = tk.Label(self.moving_frame, text="0", font=('Arial', 11))
+        self.posi_x.grid(row=2, column=0, columnspan=2)
+        self.posi_y = tk.Label(self.moving_frame, text="0", font=('Arial', 11))
+        self.posi_y.grid(row=2, column=3, columnspan=2)
+        
         self.x_label = tk.Label(self.moving_frame, text="X:", width=2, font=('Arial', 11))
-        self.x_label.grid(row=2, column=0)
+        self.x_label.grid(row=3, column=0)
         self.x_entry = tk.Entry(self.moving_frame, width=10, font=('Arial', 11))
-        self.x_entry.grid(row=2, column=1)
+        self.x_entry.grid(row=3, column=1)
         
         self.moving_empty_02 = tk.Label(self.moving_frame, width=2)
-        self.moving_empty_02.grid(row=2, column=2)
+        self.moving_empty_02.grid(row=3, column=2)
         
         self.y_label = tk.Label(self.moving_frame, text="Y:", width=2, font=('Arial', 11))
-        self.y_label.grid(row=2, column=3)
+        self.y_label.grid(row=3, column=3)
         self.y_entry = tk.Entry(self.moving_frame, width=10, font=('Arial', 11))
-        self.y_entry.grid(row=2, column=4)
+        self.y_entry.grid(row=3, column=4)
         
         self.moving_empty_20 = tk.Label(self.moving_frame, height=1)
-        self.moving_empty_20.grid(row=3, column=0)
+        self.moving_empty_20.grid(row=4, column=0)
         
         self.go_abs_button = tk.Button(self.moving_frame, text="Go Absolute", width=26, font=('Arial', 11), command=self.startAbsButton)
-        self.go_abs_button.grid(row=4, column=0, columnspan=5)
+        self.go_abs_button.grid(row=5, column=0, columnspan=5)
 
         self.moving_empty_40 = self.setEmptyBox(self.moving_frame, 5, 0, height=3)
         
