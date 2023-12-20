@@ -34,4 +34,4 @@ laser:
     port: COM7
     baudrate: 9600
     # Enter delay duration in seconds.
-    delay_duration: 0.5
+    duration_time: 0.5
