@@ -21,6 +21,14 @@ class Config():
             print("File not found or path incorrect.")
             self.configuration = {}
 
+    def readConfig(self):
+        try:
+            with open(file="config.yml", mode="r") as config_file:
+                self.configuration = yaml.safe_load(config_file)
+        except FileNotFoundError:
+            print("File not found or path incorrect.")
+            self.configuration = {}
+
 class CSVDataReader:
     def __init__(self, path):
         self.file_path = path
@@ -82,13 +90,13 @@ class ErrorLogger:
 class Motor:
     def __init__(self, port='COM3', baudrate=9600, checkRange=True):
         
-        configInstance = Config()
-        config = configInstance.configuration
+        self.configInstance = Config()
+        self.config = self.configInstance.configuration
 
         # Set port and baudrate value with config
-        port = str(config['motor']['setup']['port'])
-        baudrate = int(config['motor']['setup']['baudrate'])
-        check_range = config['motor']['setup']['check_range']
+        port = str(self.config['motor']['setup']['port'])
+        baudrate = int(self.config['motor']['setup']['baudrate'])
+        check_range = self.config['motor']['setup']['check_range']
             
         try:
             self.ser = serial.Serial(port=port, baudrate=baudrate, stopbits=1)
@@ -105,20 +113,20 @@ class Motor:
             raise Exception("CCW Soft Limit is enabled.")
                         
         # Set speed value with config
-        x_l_speed = int(config['motor']['x_axis']['l_speed'])
-        x_f_speed = int(config['motor']['x_axis']['f_speed'])
-        y_l_speed = int(config['motor']['y_axis']['l_speed'])
-        y_f_speed = int(config['motor']['y_axis']['f_speed'])
+        x_l_speed = int(self.config['motor']['x_axis']['l_speed'])
+        x_f_speed = int(self.config['motor']['x_axis']['f_speed'])
+        y_l_speed = int(self.config['motor']['y_axis']['l_speed'])
+        y_f_speed = int(self.config['motor']['y_axis']['f_speed'])
         
         # Set rate value with config
-        x_rate = int(config['motor']['x_axis']['rate'])
-        x_s_rate = int(config['motor']['x_axis']['s_rate'])
-        y_rate = int(config['motor']['y_axis']['rate'])
-        y_s_rate = int(config['motor']['y_axis']['s_rate'])
+        x_rate = int(self.config['motor']['x_axis']['rate'])
+        x_s_rate = int(self.config['motor']['x_axis']['s_rate'])
+        y_rate = int(self.config['motor']['y_axis']['rate'])
+        y_s_rate = int(self.config['motor']['y_axis']['s_rate'])
         
         # Set initial position value with config
-        self.init_x_pos = int(config['motor']['initial_position']['x'])
-        self.init_y_pos = int(config['motor']['initial_position']['y'])
+        self.init_x_pos = int(self.config['motor']['initial_position']['x'])
+        self.init_y_pos = int(self.config['motor']['initial_position']['y'])
         
         # axis setting
         self.x = "1"
@@ -135,6 +143,13 @@ class Motor:
             self.goAbs(2000, 2000)
             self.goAbs(-2000, -2000)
             self.goAbs(self.init_x_pos, self.init_y_pos)
+
+    def readConfig(self):
+        self.configInstance.readConfig()
+        self.config = self.configInstance.configuration
+
+        self.init_x_pos = int(self.config['motor']['initial_position']['x'])
+        self.init_y_pos = int(self.config['motor']['initial_position']['y'])
 
     def writeCommand(self, command: str):
         command += '\r'
@@ -186,11 +201,11 @@ class Motor:
 class Laser:
     def __init__(self, port='COM4', baudrate=9600):
         
-        configInstance = Config()
-        config = configInstance.configuration
+        self.configInstance = Config()
+        self.config = self.configInstance.configuration
 
-        port = str(config['laser']['setup']['port'])
-        baudrate = int(config['laser']['setup']['baudrate'])
+        port = str(self.config['laser']['setup']['port'])
+        baudrate = int(self.config['laser']['setup']['baudrate'])
 
         try:
             self.arduino = serial.Serial(port=port, baudrate=baudrate)
@@ -234,14 +249,24 @@ class ImageConverter:
         self.csv_size = 0
         # self.app = app
 
-        configInstance = Config()
-        config = configInstance.configuration
+        self.configInstance = Config()
+        self.config = self.configInstance.configuration
 
-        self.x_size = int(config['image']['setup']['x_size'])
-        self.y_size = int(config['image']['setup']['y_size'])
-        self.intensity = float(config['image']['setup']['intensity'])
+        self.x_size = int(self.config['image']['setup']['x_size'])
+        self.y_size = int(self.config['image']['setup']['y_size'])
+        self.intensity = float(self.config['image']['setup']['intensity'])
+
+    def readConfig(self):
+        self.configInstance.readConfig()
+        self.config = self.configInstance.configuration
+
+        self.x_size = int(self.config['image']['setup']['x_size'])
+        self.y_size = int(self.config['image']['setup']['y_size'])
+        self.intensity = float(self.config['image']['setup']['intensity'])
 
     def processAndFilterImage(self):
+        self.readConfig()
+
         img = Image.open(self.image_path)
         img.thumbnail((self.x_size, self.y_size))
         transform = tr.Compose([tr.ToTensor()])
@@ -296,11 +321,19 @@ class Recipe():
         self.laser = Laser()
         self.logInstance = Logger()
         self.logger = self.logInstance.getLogger()
-        configInstance = Config()
-        config = configInstance.configuration
-        self.delayDuration = float(config['laser']['setup']['duration_time'])
+        self.configInstance = Config()
+        self.config = self.configInstance.configuration
+        self.delayDuration = float(self.config['laser']['setup']['duration_time'])
         
-        self.csv_reader = CSVDataReader(path="resources\\filtered_pixel_rgb_values.csv")
+        self.csv_reader = CSVDataReader(path="resources\\filtered_values.csv")
+        self.csv_reader.read_csv()
+        self.csv_size = len(self.csv_reader.X)
+
+    def readConfig(self):
+        self.configInstance = Config()
+        self.config = self.configInstance.configuration
+        self.delayDuration = float(self.config['laser']['setup']['duration_time'])
+        
         self.csv_reader.read_csv()
         self.csv_size = len(self.csv_reader.X)
 
@@ -317,6 +350,8 @@ class Recipe():
         return self.is_running
         
     def goRecipe(self):
+        self.readConfig()
+
         self.csv_size = len(self.csv_reader.X)
         try:
             for self.count in range(self.csv_size):
